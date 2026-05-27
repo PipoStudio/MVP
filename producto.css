@@ -4,38 +4,46 @@ body, html {
     overflow: hidden; 
     background: #0D0D0D; 
 }
+
 .portfolio-wrapper {
     width: 100vw;
     height: 100vh;
     display: flex;
     align-items: center;
-    /* QUITAMOS justify-content: flex-start; temporalmente */
-    /* Usamos scroll automático para que la primera tarjeta siempre toque el borde izquierdo */
+    justify-content: center;
     overflow: hidden;
     background: #0D0D0D;
-    /* CSS */
-
+    perspective: 1000px;
 }
 
 .slider-container {
     display: flex;
     flex-wrap: nowrap;
     gap: 5vw;
-    padding-left: 5vw; /* Padding aquí en lugar de en el wrapper */
-    min-width: 300vw; 
+    padding-left: 5vw;
+    /* Ancho mínimo para contener todas las tarjetas */
+    width: fit-content;
     height: 100vh;
     align-items: center; 
+    
+    /* Transiciones suaves */
     transition: transform 0.1s ease-out;
-    transform-origin: left center; /* Anclado a la izquierda */
+    
+    /* Puntos de anclaje para zoom y slider */
+    transform-origin: center center;
+    will-change: transform;
 }
+
 .card {
     width: 30vw;
     height: 40vw;
-    flex-shrink: 0; /* Vital para que no se encojan */
+    flex-shrink: 0; /* VITAL: Evitar que se encoja */
     background: #222;
     overflow: hidden;
     cursor: pointer;
     transition: transform 0.3s ease;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
 .card img { 
@@ -45,20 +53,123 @@ body, html {
     transition: transform 0.6s ease;
 }
 
-/* Efecto hover profesional para tus cards */
+/* Efecto hover profesional */
 .card:hover img {
     transform: scale(1.05);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
 }
 
 .card-final {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #1a1a1a;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
     color: white;
     text-align: center;
+    font-size: 1.5vw;
+    font-weight: 600;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
 }
 
-/* CSS */
-.portfolio-wrapper { transition: opacity 0.8s ease; }
-.portfolio-wrapper.hidden { opacity: 0; pointer-events: none; }
+.card-final h3 {
+    margin: 0;
+    z-index: 2;
+    position: relative;
+}
+
+.card-final::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1), transparent);
+    pointer-events: none;
+}
+
+/* ==========================================
+   ESTADOS Y ANIMACIONES
+========================================== */
+
+/* Fade-out suave del wrapper */
+.portfolio-wrapper { 
+    transition: opacity 0.8s ease; 
+}
+
+.portfolio-wrapper.hidden { 
+    opacity: 0; 
+    pointer-events: none; 
+}
+
+/* Portafolio completo con fade-in */
+.portfolio-completo {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #0D0D0D;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.portfolio-completo h1 {
+    font-size: 4vw;
+    margin-bottom: 2vw;
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: -2px;
+}
+
+.btn-ver-todo {
+    display: inline-block;
+    padding: 1.2vw 3vw;
+    background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.btn-ver-todo:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 40px rgba(255, 107, 107, 0.3);
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 768px) {
+    .slider-container {
+        gap: 2vw;
+        padding-left: 2vw;
+    }
+    
+    .card {
+        width: 60vw;
+        height: 80vw;
+    }
+    
+    .portfolio-completo h1 {
+        font-size: 8vw;
+        margin-bottom: 4vw;
+    }
+    
+    .btn-ver-todo {
+        padding: 3vw 6vw;
+        font-size: 4vw;
+    }
+}
