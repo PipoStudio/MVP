@@ -1,0 +1,527 @@
+/* =========================================================
+   ANIMATIONS.CSS — AMPLIFY STUDIO
+   Cinematic Motion System
+========================================================= */
+/* =========================================================
+   FADE UP
+========================================================= */
+.fade-up {
+    opacity: 0;
+    transform: translateY(80px);
+    animation:
+        fadeUp
+        1.2s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        forwards;
+}
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* =========================================================
+   FADE DOWN
+========================================================= */
+.fade-down {
+    opacity: 0;
+    transform: translateY(-80px);
+    animation:
+        fadeDown
+        1.2s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        forwards;
+}
+@keyframes fadeDown {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* =========================================================
+   FADE LEFT
+========================================================= */
+.fade-left {
+    opacity: 0;
+    transform: translateX(80px);
+    animation:
+        fadeLeft
+        1.2s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        forwards;
+}
+@keyframes fadeLeft {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+/* =========================================================
+   FADE RIGHT
+========================================================= */
+.fade-right {
+    opacity: 0;
+    transform: translateX(-80px);
+    animation:
+        fadeRight
+        1.2s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        forwards;
+}
+@keyframes fadeRight {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+/* =========================================================
+   SCALE IN
+========================================================= */
+.scale-in {
+    opacity: 0;
+    transform: scale(0.9);
+    animation:
+        scaleIn
+        1.3s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        forwards;
+}
+@keyframes scaleIn {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+/* =========================================================
+   ROTATE IN
+========================================================= */
+.rotate-in {
+    opacity: 0;
+    transform:
+        rotate(-8deg)
+        scale(0.94);
+    transform-origin: center;
+    animation:
+        rotateIn
+        1.5s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        forwards;
+}
+@keyframes rotateIn {
+    to {
+        opacity: 1;
+        transform:
+            rotate(0deg)
+            scale(1);
+    }
+}
+/* =========================================================
+   TEXT REVEAL
+========================================================= */
+.text-reveal {
+    overflow: hidden;
+}
+.text-reveal span {
+    display: inline-block;
+    transform: translateY(115%);
+    animation:
+        textReveal
+        1s
+        cubic-bezier(0.77, 0, 0.175, 1)
+        forwards;
+}
+@keyframes textReveal {
+    to {
+        transform: translateY(0);
+    }
+}
+/* =========================================================
+   IMAGE REVEAL
+========================================================= */
+.image-reveal {
+    position: relative;
+    overflow: hidden;
+}
+.image-reveal img {
+    transform: scale(1.15);
+    animation:
+        imageReveal
+        1.8s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        forwards;
+}
+@keyframes imageReveal {
+    to {
+        transform: scale(1);
+    }
+}
+/* =========================================================
+   MASK SLIDE
+========================================================= */
+.mask-slide {
+    position: relative;
+    overflow: hidden;
+}
+.mask-slide::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--black);
+    transform: translateX(0);
+    animation:
+        maskSlide
+        1.5s
+        cubic-bezier(0.77, 0, 0.175, 1)
+        forwards;
+}
+@keyframes maskSlide {
+    to {
+        transform: translateX(100%);
+    }
+}
+/* =========================================================
+   FLOATING
+========================================================= */
+.float {
+    animation:
+        floating
+        6s
+        ease-in-out
+        infinite;
+}
+@keyframes floating {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-18px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+/* =========================================================
+   SLOW ROTATION
+========================================================= */
+.rotate-slow {
+    animation:
+        rotateSlow
+        18s
+        linear
+        infinite;
+}
+@keyframes rotateSlow {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+/* =========================================================
+   PULSE
+========================================================= */
+.pulse {
+    animation:
+        pulse
+        2.5s
+        ease-in-out
+        infinite;
+}
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.08);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+/* =========================================================
+   SCROLL LINE
+========================================================= */
+.scroll-line::after {
+    animation:
+        scrollLine
+        1.8s
+        ease
+        infinite;
+}
+@keyframes scrollLine {
+    from {
+        top: -100%;
+    }
+    to {
+        top: 100%;
+    }
+}
+/* =========================================================
+   MARQUEE
+========================================================= */
+.marquee-track {
+    animation:
+        marqueeMove
+        20s
+        linear
+        infinite;
+}
+@keyframes marqueeMove {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+/* =========================================================
+   BUTTON SHINE
+========================================================= */
+.shine-button {
+    position: relative;
+    overflow: hidden;
+}
+.shine-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 60%;
+    height: 100%;
+    background:
+        linear-gradient(
+            120deg,
+            transparent,
+            rgba(255, 255, 255, 0.35),
+            transparent
+        );
+    transform: skewX(-25deg);
+}
+.shine-button:hover::before {
+    animation:
+        shineMove
+        1s ease forwards;
+}
+@keyframes shineMove {
+    to {
+        left: 130%;
+    }
+}
+/* =========================================================
+   HOVER UNDERLINE
+========================================================= */
+.hover-underline {
+    position: relative;
+}
+.hover-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -0.2rem;
+    width: 0%;
+    height: 1px;
+    background: currentColor;
+    transition:
+        width 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hover-underline:hover::after {
+    width: 100%;
+}
+/* =========================================================
+   CARD LIFT
+========================================================= */
+.card-lift {
+    transition:
+        transform 800ms cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 800ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-lift:hover {
+    transform:
+        translateY(-14px);
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.08);
+}
+/* =========================================================
+   IMAGE PARALLAX
+========================================================= */
+.parallax-image img {
+    transform:
+        scale(1.08);
+    transition:
+        transform 2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.parallax-image:hover img {
+    transform:
+        scale(1.15);
+}
+/* =========================================================
+   BLUR APPEAR
+========================================================= */
+.blur-appear {
+    opacity: 0;
+    filter: blur(12px);
+    animation:
+        blurAppear
+        1.4s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        forwards;
+}
+@keyframes blurAppear {
+    to {
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+/* =========================================================
+   LETTER SPACING REVEAL
+========================================================= */
+.spacing-reveal {
+    opacity: 0;
+    letter-spacing: 0.4em;
+    animation:
+        spacingReveal
+        1.4s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        forwards;
+}
+@keyframes spacingReveal {
+    to {
+        opacity: 1;
+        letter-spacing: 0.08em;
+    }
+}
+/* =========================================================
+   LOADER DOT
+========================================================= */
+.loader-dot {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    background: var(--black);
+    animation:
+        loaderDot
+        1s
+        ease-in-out
+        infinite alternate;
+}
+@keyframes loaderDot {
+    from {
+        transform:
+            translateY(0)
+            scale(1);
+        opacity: 0.4;
+    }
+    to {
+        transform:
+            translateY(-10px)
+            scale(1.2);
+        opacity: 1;
+    }
+}
+/* =========================================================
+   PAGE TRANSITION
+========================================================= */
+.page-transition-enter {
+    animation:
+        pageEnter
+        1.2s
+        cubic-bezier(0.77, 0, 0.175, 1)
+        forwards;
+}
+@keyframes pageEnter {
+    0% {
+        transform: translateY(100%);
+    }
+    45% {
+        transform: translateY(0);
+    }
+    55% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-100%);
+    }
+}
+/* =========================================================
+   GRAIN SHIFT
+========================================================= */
+.grain-shift {
+    animation:
+        grainShift
+        8s
+        steps(10)
+        infinite;
+}
+@keyframes grainShift {
+    0% {
+        transform: translate(0, 0);
+    }
+    10% {
+        transform: translate(-2%, -3%);
+    }
+    20% {
+        transform: translate(3%, 1%);
+    }
+    30% {
+        transform: translate(-1%, 2%);
+    }
+    40% {
+        transform: translate(1%, -1%);
+    }
+    50% {
+        transform: translate(-3%, 1%);
+    }
+    60% {
+        transform: translate(2%, 3%);
+    }
+    70% {
+        transform: translate(-1%, -2%);
+    }
+    80% {
+        transform: translate(2%, -1%);
+    }
+    90% {
+        transform: translate(-2%, 2%);
+    }
+    100% {
+        transform: translate(0, 0);
+    }
+}
+/* =========================================================
+   STAGGER DELAYS
+========================================================= */
+.delay-1 {
+    animation-delay: 0.1s;
+}
+.delay-2 {
+    animation-delay: 0.2s;
+}
+.delay-3 {
+    animation-delay: 0.3s;
+}
+.delay-4 {
+    animation-delay: 0.4s;
+}
+.delay-5 {
+    animation-delay: 0.5s;
+}
+.delay-6 {
+    animation-delay: 0.6s;
+}
+/* =========================================================
+   REDUCIR MOVIMIENTO
+========================================================= */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

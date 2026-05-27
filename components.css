@@ -1,0 +1,578 @@
+/* =========================================================
+   COMPONENTS.CSS — AMPLIFY STUDIO
+   Shared Components / Utilities / Interactive Systems
+========================================================= */
+/* =========================================================
+   CONTAINER
+========================================================= */
+.container {
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
+}
+/* =========================================================
+   CURSOR (MIX-BLEND-MODE Y CÍRCULO SÓLIDO)
+========================================================= */
+
+.custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 18px;
+    height: 18px;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    pointer-events: none;
+
+    z-index: 999999;
+
+    transform:
+        translate(-50%, -50%)
+        scale(1);
+
+    will-change:
+        transform,
+        width,
+        height,
+        background,
+        border,
+        mix-blend-mode;
+
+    transition:
+        transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+        width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+        height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+        background 0.3s ease,
+        border 0.3s ease,
+        opacity 0.3s ease;
+
+    mix-blend-mode: normal;
+}
+
+
+/* =========================================================
+   MODO TEXTO / BOTONES
+========================================================= */
+
+.custom-cursor.active {
+
+    mix-blend-mode: difference;
+
+    background: #ffffff;
+
+    width: 18px;
+    height: 18px;
+
+    transform:
+        translate(-50%, -50%)
+        scale(var(--cursor-scale, 4));
+}
+
+
+/* =========================================================
+   MODO IMAGEN / ZOOM
+========================================================= */
+.custom-cursor.zoom-mode {
+
+    mix-blend-mode: normal;
+
+    background: #ffffff;
+
+    border: none;
+
+    opacity: 1;
+
+    transform:
+        translate(-50%, -50%)
+        scale(6);
+}
+
+/* =========================================================
+   SMALL PLUS ICON
+========================================================= */
+.custom-cursor.zoom-mode::before {
+
+    content: "+";
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    font-size: 0.7rem;
+
+    font-weight: 400;
+
+    color: #000000;
+
+    line-height: 1;
+
+    pointer-events: none;
+}
+
+/* =========================================================
+   NOISE OVERLAY
+========================================================= */
+.noise-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    z-index: 999;
+    background-image:
+        url("https://grainy-gradients.vercel.app/noise.svg");
+    mix-blend-mode: multiply;
+}
+/* =========================================================
+   PAGE TRANSITION
+========================================================= */
+.page-transition {
+    position: fixed;
+    inset: 0;
+    background: var(--black);
+    z-index: 99999;
+    transform: translateY(100%);
+    pointer-events: none;
+}
+.page-transition.active {
+    animation:
+        pageTransition
+        1.2s
+        cubic-bezier(0.77, 0, 0.175, 1)
+        forwards;
+}
+@keyframes pageTransition {
+    0% {
+        transform: translateY(100%);
+    }
+    45% {
+        transform: translateY(0%);
+    }
+    55% {
+        transform: translateY(0%);
+    }
+    100% {
+        transform: translateY(-100%);
+    }
+}
+/* =========================================================
+   LOADER & LÍNEA DE PROGRESO (MODO OSCURO)
+========================================================= */
+.site-loader {
+    position: fixed;
+    inset: 0;
+    background: var(--black);
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1.5rem;
+    transition: opacity 1s ease, visibility 1s ease;
+}
+.site-loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+.loader-logo {
+    color: var(--white);
+}
+/* =========================================================
+   LOADER TEXT
+========================================================= */
+.loader-logo {
+    font-size:
+        clamp(3rem, 7vw, 8rem);
+    font-weight: 900;
+    letter-spacing: -0.08em;
+    text-transform: uppercase;
+}
+.loader-logo span {
+    color: var(--peach);
+}
+/* =========================================================
+   LOADER LINE
+========================================================= */
+.loader-line {
+    width: 14rem;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.15);
+    overflow: hidden;
+    position: relative;
+}
+.loader-line::after {
+    content: "";
+    position: absolute;
+    left: -100%;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--white);
+    animation: loadingLine 1.6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+@keyframes loadingLine {
+    to {
+        left: 100%;
+    }
+}
+/* =========================================================
+   MARQUEE
+========================================================= */
+.marquee {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    border-top:
+        1px solid var(--border-color);
+    border-bottom:
+        1px solid var(--border-color);
+}
+/* =========================================================
+   MARQUEE TRACK
+========================================================= */
+.marquee-track {
+    display: inline-flex;
+    align-items: center;
+    gap: 4rem;
+    padding:
+        1.5rem
+        0;
+    animation:
+        marqueeScroll
+        18s
+        linear
+        infinite;
+}
+@keyframes marqueeScroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+/* =========================================================
+   MARQUEE TEXT
+========================================================= */
+.marquee-track span {
+    font-size:
+        clamp(2rem, 4vw, 5rem);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    opacity: 0.9;
+}
+/* =========================================================
+   GRID BACKGROUND
+========================================================= */
+.grid-background {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(
+            rgba(13, 13, 13, 0.03) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(13, 13, 13, 0.03) 1px,
+            transparent 1px
+        );
+    background-size:
+        4rem 4rem;
+    pointer-events: none;
+}
+/* =========================================================
+   MASK REVEAL (PARA IMÁGENES)
+========================================================= */
+.mask-reveal {
+    overflow: hidden;
+}
+.mask-reveal img {
+    transform: scale(1.15);
+    animation:
+        imageReveal
+        1.6s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        forwards;
+}
+@keyframes imageReveal {
+    to {
+        transform: scale(1);
+    }
+}
+/* =========================================================
+   GLASS CARD PARA EL NAVBAR Y SECCIONES
+========================================================= */
+.glass-card {
+    backdrop-filter: blur(24px);
+    background:
+        rgba(255, 255, 255, 0.55);
+    border:
+        1px solid rgba(255, 255, 255, 0.35);
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.04);
+}
+/* =========================================================
+   SECCIÓN DE DIVISIÓN
+========================================================= */
+.section-divider {
+    width: 100%;
+    height: 1px;
+    background:
+        linear-gradient(
+            to right,
+            transparent,
+            rgba(13, 13, 13, 0.08),
+            transparent
+        );
+}
+/* =========================================================
+   HOVER LINK
+========================================================= */
+.hover-link {
+    position: relative;
+    width: fit-content;
+}
+.hover-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -0.25rem;
+    width: 0%;
+    height: 1px;
+    background: currentColor;
+    transition: var(--transition-fast);
+}
+.hover-link:hover::after {
+    width: 100%;
+}
+/* =========================================================
+   TEXTO REVELADO
+========================================================= */
+.text-reveal {
+    overflow: hidden;
+}
+.text-reveal span {
+    display: inline-block;
+    transform: translateY(110%);
+    animation:
+        textReveal
+        1s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        forwards;
+}
+@keyframes textReveal {
+    to {
+        transform: translateY(0);
+    }
+}
+/* =========================================================
+   FLOATING BADGE
+========================================================= */
+.floating-badge {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    padding:
+        0.8rem
+        1rem;
+    border-radius: 100px;
+    background:
+        rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(16px);
+    border:
+        1px solid rgba(13, 13, 13, 0.08);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+/* =========================================================
+   RADIO DE IMAGEN
+========================================================= */
+.ratio-square {
+    aspect-ratio: 1 / 1;
+}
+.ratio-portrait {
+    aspect-ratio: 4 / 5;
+}
+.ratio-landscape {
+    aspect-ratio: 16 / 9;
+}
+.ratio-cinematic {
+    aspect-ratio: 21 / 9;
+}
+/* =========================================================
+   ORB DE DESFOCO
+========================================================= */
+.blur-orb {
+    position: absolute;
+    width: 30rem;
+    height: 30rem;
+    border-radius: 50%;
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 180, 132, 0.18),
+            transparent 70%
+        );
+    filter: blur(50px);
+    pointer-events: none;
+}
+/* =========================================================
+   ELEMENTO PEGAJOSO
+========================================================= */
+.sticky-element {
+    position: sticky;
+    top: 8rem;
+}
+/* =========================================================
+   HOVER LIFT
+========================================================= */
+.hover-lift {
+    transition:
+        transform 700ms cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hover-lift:hover {
+    transform: translateY(-10px);
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.08);
+}
+/* =========================================================
+   TEXTO CON CONTORNO
+========================================================= */
+.outline-text {
+    color: transparent;
+    -webkit-text-stroke:
+        1px var(--black);
+}
+/* =========================================================
+   FADE IN
+========================================================= */
+.fade-in {
+    opacity: 0;
+    animation:
+        fadeIn
+        1.2s ease forwards;
+}
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+/* =========================================================
+   ELEMENTO GIRATORIO LENTO
+========================================================= */
+.rotate-slow {
+    animation:
+        rotateSlow
+        18s
+        linear
+        infinite;
+}
+@keyframes rotateSlow {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+/* =========================================================
+   BOTÓN CON EFECTO MAGNÉTICO
+   ========================================================= */
+.magnetic-button {
+    position: relative;
+    transition:
+        transform 250ms ease;
+    will-change: transform;
+}
+/* =========================================================
+  INDICADOR DE SCROLL 
+========================================================= */
+.scroll-indicator {
+    position: absolute;
+    left: 50%;
+    bottom: 2rem;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+}
+.scroll-indicator span {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.4;
+}
+.scroll-line {
+    width: 1px;
+    height: 4rem;
+    background:
+        rgba(13, 13, 13, 0.15);
+    overflow: hidden;
+    position: relative;
+}
+.scroll-line::after {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--black);
+    animation:
+        scrollMove
+        1.8s
+        ease
+        infinite;
+}
+@keyframes scrollMove {
+    to {
+        top: 100%;
+    }
+}
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media screen and (max-width: 768px) {
+    .custom-cursor,
+    .noise-overlay,
+    .grid-background,
+    .blur-orb {
+        display: none;
+    }
+    .loader-logo {
+        font-size: 4rem;
+    }
+    .marquee-track span {
+        font-size: 2rem;
+    }
+    .floating-badge {
+        top: 1rem;
+        right: 1rem;
+    }
+}
+/* Estilo para el modo texto (efecto de sobrexpuesto) */
+.custom-cursor.active {
+    mix-blend-mode: difference;
+}
+
+/* Estilo para el modo imagen (lupa) */
+.custom-cursor.cursor-zoom {
+    mix-blend-mode: normal; 
+    border: 2px solid white; 
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Estilo p

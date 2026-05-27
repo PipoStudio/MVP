@@ -1,0 +1,438 @@
+/* =========================================================
+   RESPONSIVE.CSS — AMPLIFY STUDIO
+   Advanced Responsive System
+========================================================= */
+/* =========================================================
+   1600px
+========================================================= */
+@media screen and (max-width: 1600px) {
+    :root {
+        --container-padding: 3vw;
+    }
+    .hero-title {
+        font-size: 10rem;
+    }
+    .statement-title {
+        font-size: 8rem;
+    }
+    .footer-statement h2 {
+        font-size: 10rem;
+    }
+    .large-horizontal {
+        height: 36rem;
+    }
+    .portrait-image {
+        height: 44rem;
+    }
+    .cinematic-image {
+        height: 34rem;
+    }
+}
+/* =========================================================
+   1400px
+========================================================= */
+@media screen and (max-width: 1400px) {
+    .hero-layout {
+        gap: 3rem;
+    }
+    .hero-visual {
+        min-height: 42rem;
+    }
+    .hero-title {
+        font-size: 8rem;
+    }
+    .manifesto-title,
+    .concept-title,
+    .about-title,
+    .portfolio-title,
+    .contact-title {
+        font-size: 5rem;
+    }
+    .statement-title {
+        font-size: 6.5rem;
+    }
+    .footer-statement h2 {
+        font-size: 8rem;
+    }
+    .floating-card {
+        width: 18rem;
+        left: -2rem;
+    }
+}
+/* =========================================================
+   1200px
+========================================================= */
+@media screen and (max-width: 1200px) {
+    :root {
+        --section-spacing: 9rem;
+    }
+    .hero-layout,
+    .visual-split-grid,
+    .contact-layout {
+        grid-template-columns: 1fr;
+    }
+    .hero-content {
+        padding-bottom: 0;
+    }
+    .hero-visual {
+        min-height: 36rem;
+    }
+    .floating-card,
+    .contact-floating-card {
+        position: relative;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin-top: 2rem;
+    }
+    .manifesto-grid,
+    .manifesto-editorial-grid,
+    .about-grid,
+    .bio-grid,
+    .typography-grid,
+    .concept-heading-grid,
+    .portfolio-heading-grid,
+    .contact-heading-grid,
+    .about-cta-grid,
+    .portfolio-cta-grid,
+    .contact-info-grid {
+        grid-template-columns: 1fr;
+    }
+    .palette-grid,
+    .experience-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+    .portfolio-area::before {
+        display: none;
+    }
+}
+/* =========================================================
+   1024px
+========================================================= */
+@media screen and (max-width: 1024px) {
+    .main-navigation,
+    .header-right {
+        display: none;
+    }
+    .menu-toggle {
+        display: block;
+    }
+    .hero-title {
+        font-size: 7rem;
+    }
+    .statement-title {
+        font-size: 5.5rem;
+    }
+    .footer-top {
+        grid-template-columns: 1fr;
+        gap: 4rem;
+    }
+    .principles-grid {
+        grid-template-columns: 1fr;
+    }
+    .moodboard-grid {
+        grid-template-columns: 1fr;
+    }
+    .area-block,
+    .reverse-layout {
+        grid-template-columns: 1fr;
+    }
+    .project-heading {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+}
+/* =========================================================
+   900px
+========================================================= */
+@media screen and (max-width: 900px) {
+    :root {
+        --container-padding: 2rem;
+    }
+    .hero,
+    .concept-hero,
+    .about-hero,
+    .portfolio-hero,
+    .contact-hero {
+        padding-top: 8rem;
+    }
+    .hero-layout {
+        min-height: auto;
+    }
+    .hero-title {
+        font-size: 6rem;
+    }
+    .statement-title {
+        font-size: 5rem;
+    }
+    .manifesto-title,
+    .concept-title,
+    .about-title,
+    .portfolio-title,
+    .contact-title {
+        font-size: 4rem;
+    }
+    .area-heading-right h2,
+    .cta-right h2,
+    .about-cta-right h2,
+    .portfolio-cta-right h2,
+    .principles-header h2,
+    .palette-header h2,
+    .experience-header h2,
+    .moodboard-heading h2 {
+        font-size: 4rem;
+    }
+    .footer-statement h2 {
+        font-size: 6rem;
+    }
+    .area-content h3 {
+        font-size: 2.5rem;
+    }
+    .contact-main-image,
+    .about-main-image,
+    .concept-banner-image {
+        height: 36rem;
+    }
+}
+/* =========================================================
+   768px
+========================================================= */
+@media screen and (max-width: 768px) {
+    :root {
+        --container-padding: 1.5rem;
+        --section-spacing: 7rem;
+    }
+    body {
+        overflow-x: hidden;
+    }
+    .site-header {
+        padding:
+            1.2rem
+            var(--container-padding);
+    }
+    .hero,
+    .concept-hero,
+    .about-hero,
+    .portfolio-hero,
+    .contact-hero {
+        padding:
+            7rem
+            var(--container-padding)
+            4rem;
+    }
+    .hero-title {
+        font-size: 4.5rem;
+        line-height: 0.9;
+    }
+    .statement-title {
+        font-size: 3.8rem;
+    }
+    .manifesto-title,
+    .concept-title,
+    .about-title,
+    .portfolio-title,
+    .contact-title {
+        font-size: 3rem;
+    }
+    .footer-statement h2 {
+        font-size: 4rem;
+    }
+    .hero-description,
+    .statement-small,
+    .manifesto-paragraph,
+    .bio-description {
+        font-size: 0.95rem;
+    }
+    .hero-actions {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+    .primary-button,
+    .secondary-button {
+        width: 100%;
+    }
+    .hero-visual {
+        min-height: 28rem;
+    }
+    .hero-image-main,
+    .contact-main-image,
+    .about-main-image,
+    .concept-banner-image,
+    .visual-split-image,
+    .large-image,
+    .vertical-image,
+    .square-image {
+        height: 28rem;
+    }
+    .project-grid,
+    .collage-grid,
+    .portrait-grid,
+    .cinematic-grid,
+    .campaign-grid,
+    .widescreen-grid,
+    .final-portrait-grid {
+        display: flex;
+        flex-direction: column;
+    }
+    .portfolio-image {
+        min-height: 20rem !important;
+    }
+    .palette-grid,
+    .experience-grid {
+        grid-template-columns: 1fr;
+    }
+    .contact-layout {
+        gap: 3rem;
+    }
+    .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .value-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .custom-cursor,
+    .noise-overlay,
+    .grid-background,
+    .blur-orb {
+        display: none;
+    }
+}
+/* =========================================================
+   600px
+========================================================= */
+@media screen and (max-width: 600px) {
+    .hero-title {
+        font-size: 3.8rem;
+    }
+    .statement-title {
+        font-size: 3.2rem;
+    }
+    .manifesto-title,
+    .concept-title,
+    .about-title,
+    .portfolio-title,
+    .contact-title {
+        font-size: 2.5rem;
+    }
+    .footer-statement h2 {
+        font-size: 3rem;
+    }
+    .large-paragraph {
+        font-size: 1.35rem;
+    }
+    .area-content h3 {
+        font-size: 2rem;
+    }
+    .principle-card,
+    .experience-card {
+        padding: 2rem;
+        min-height: auto;
+    }
+    .floating-card,
+    .contact-floating-card {
+        width: 100%;
+        padding: 1.5rem;
+    }
+    .portfolio-image::after {
+        left: 1rem;
+        bottom: 1rem;
+    }
+}
+/* =========================================================
+   480px
+========================================================= */
+@media screen and (max-width: 480px) {
+    :root {
+        --container-padding: 1.2rem;
+    }
+    .brand-text,
+    .footer-logo-text {
+        font-size: 1rem;
+    }
+    .hero-title {
+        font-size: 3.2rem;
+    }
+    .statement-title {
+        font-size: 2.8rem;
+    }
+    .manifesto-title,
+    .concept-title,
+    .about-title,
+    .portfolio-title,
+    .contact-title {
+        font-size: 2.2rem;
+    }
+    .footer-statement h2 {
+        font-size: 2.5rem;
+    }
+    .hero-description,
+    .statement-small,
+    .manifesto-paragraph,
+    .bio-description,
+    .footer-description {
+        font-size: 0.9rem;
+    }
+    .hero-image-main,
+    .contact-main-image,
+    .about-main-image,
+    .concept-banner-image {
+        height: 22rem;
+        border-radius: 1.2rem;
+    }
+    .portfolio-image {
+        border-radius: 1rem;
+    }
+    .principle-card,
+    .experience-card,
+    .color-card {
+        border-radius: 1.2rem;
+    }
+    .area-image {
+        border-radius: 1.2rem;
+    }
+    .footer-top {
+        margin-bottom: 5rem;
+    }
+}
+/* =========================================================
+   380px
+========================================================= */
+@media screen and (max-width: 380px) {
+    .hero-title {
+        font-size: 2.8rem;
+    }
+    .statement-title {
+        font-size: 2.4rem;
+    }
+    .manifesto-title,
+    .concept-title,
+    .about-title,
+    .portfolio-title,
+    .contact-title {
+        font-size: 2rem;
+    }
+    .footer-statement h2 {
+        font-size: 2.2rem;
+    }
+    .primary-button,
+    .secondary-button,
+    .submit-button {
+        padding:
+            1rem
+            1.2rem;
+        font-size: 0.7rem;
+    }
+    .hero-image-main,
+    .contact-main-image,
+    .about-main-image,
+    .concept-banner-image {
+        height: 18rem;
+    }
+}

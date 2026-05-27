@@ -1,0 +1,58 @@
+/* RESET */
+body, html { 
+    margin: 0; 
+    overflow: hidden; 
+    background: #0D0D0D; 
+}
+
+.portfolio-wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 5vw; 
+    overflow: hidden;
+    overscroll-behavior: none; /* Evita que el navegador intente hacer scroll nativo */
+}
+
+.slider-container {
+    display: flex;
+    flex-wrap: nowrap; /* IMPORTANTE: Asegura que no se bajen a una segunda fila */
+    gap: 5vw;
+    min-width: 120vw;
+    height: 100vh; /* Cambia a 100vh para que ocupen toda la altura */
+    align-items: center; 
+    transition: transform 0.1s ease-out;
+    transform-origin: left center;
+}
+.card {
+    width: 30vw;
+    height: 40vw;
+    flex-shrink: 0; /* Vital para que no se encojan */
+    background: #222;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.card img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    transition: transform 0.6s ease;
+}
+
+/* Efecto hover profesional para tus cards */
+.card:hover img {
+    transform: scale(1.05);
+}
+
+.card-final {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1a1a1a;
+    color: white;
+    text-align: center;
+}

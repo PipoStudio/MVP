@@ -1,0 +1,570 @@
+/* =========================================================
+   MAIN.CSS — AMPLIFY STUDIO
+   Editorial / Minimal / Contemporary
+========================================================= */
+/* =========================================================
+   GOOGLE FONT
+========================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+/* =========================================================
+   ROOT VARIABLES
+========================================================= */
+:root {
+    /* COLORS */
+    --black: #0D0D0D;
+    --white: #F5F5F5;
+    --peach: #FFB484;
+    --red: #D72638;
+    --gray-light: #E7E7E7;
+    --gray-medium: #B8B8B8;
+    --gray-dark: #5E5E5E;
+    /* TYPOGRAPHY */
+    --font-main: 'Inter', sans-serif;
+    /* LAYOUT */
+    --container-padding: 3.5vw;
+    --section-spacing: 8rem;
+    --border-color: rgba(13, 13, 13, 0.08);
+    /* TRANSITIONS */
+    --transition-smooth: 700ms cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-fast: 300ms ease;
+}
+/* =========================================================
+   RESET
+========================================================= */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* =========================================================
+   HTML / BODY
+========================================================= */
+html {
+    scroll-behavior: smooth;
+}
+body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-main);
+    overflow-x: hidden;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+/* =========================================================
+   SELECTION
+========================================================= */
+::selection {
+    background: var(--black);
+    color: var(--white);
+}
+/* =========================================================
+   GLOBAL ELEMENTS
+========================================================= */
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+ul {
+    list-style: none;
+}
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+/* =========================================================
+   TYPOGRAPHY
+========================================================= */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 0.92;
+}
+p {
+    line-height: 1.45;
+}
+/* =========================================================
+   MAIN WRAPPER
+========================================================= */
+main {
+    width: 100%;
+}
+/* =========================================================
+   SHARED SECTION SPACING
+========================================================= */
+section {
+    position: relative;
+    width: 100%;
+}
+/* =========================================================
+   SECTION LABEL
+========================================================= */
+.section-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    opacity: 0.45;
+}
+/* =========================================================
+   TOPLINE
+========================================================= */
+.topline-dot {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: var(--peach);
+    display: block;
+}
+/* =========================================================
+   BUTTONS
+========================================================= */
+.primary-button,
+.secondary-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 11rem;
+    padding: 1.15rem 1.8rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: var(--transition-smooth);
+    overflow: hidden;
+}
+/* PRIMARY */
+.primary-button {
+    background: var(--black);
+    color: var(--white);
+    border: 1px solid var(--black);
+}
+.primary-button:hover {
+    background: transparent;
+    color: var(--black);
+}
+/* SECONDARY */
+.secondary-button {
+    border: 1px solid var(--border-color);
+}
+.secondary-button:hover {
+    border-color: var(--black);
+}
+/* =========================================================
+   HEADER
+========================================================= */
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:
+        1.5rem
+        var(--container-padding);
+    z-index: 1000;
+    backdrop-filter: blur(20px);
+    background:
+        rgba(13, 13, 13, 0.04);
+    border-bottom:
+        1px solid rgba(13, 13, 13, 0.04);
+        transition: background 0.5s ease, backdrop-filter 0.5s ease, transform 0.4s ease;
+
+}
+/* =========================================================
+   BRAND
+========================================================= */
+.brand-logo,
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.05em;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.06em;
+}
+.brand-text,
+.footer-logo-text {
+    font-size: 1.1rem;
+}
+.brand-dot,
+.footer-logo-dot {
+    color: var(--peach);
+    font-size: 1.3rem;
+}
+/* =========================================================
+   NAVIGATION
+========================================================= */
+.nav-list {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+}
+.nav-item a {
+    position: relative;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.65;
+    transition: var(--transition-fast);
+}
+.nav-item a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -0.4rem;
+    width: 0%;
+    height: 1px;
+    background: var(--black);
+    transition: var(--transition-fast);
+}
+.nav-item a:hover {
+    opacity: 1;
+}
+.nav-item a:hover::after {
+    width: 100%;
+}
+/* =========================================================
+   HEADER CTA
+========================================================= */
+.header-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding:
+        0.95rem
+        1.4rem;
+    border: 1px solid rgba(13, 13, 13, 0.08);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    transition: var(--transition-smooth);
+}
+.header-cta:hover {
+    background: var(--black);
+    color: var(--white);
+}
+/* =========================================================
+   MOBILE MENU BUTTON
+========================================================= */
+.menu-toggle {
+    display: none;
+    width: 3rem;
+    height: 3rem;
+    background: transparent;
+    border: none;
+    position: relative;
+    cursor: pointer;
+}
+.menu-toggle span {
+    position: absolute;
+    left: 50%;
+    width: 1.3rem;
+    height: 1px;
+    background: var(--black);
+    transform: translateX(-50%);
+}
+.menu-toggle span:first-child {
+    top: 1.15rem;
+}
+.menu-toggle span:last-child {
+    bottom: 1.15rem;
+}
+/* =========================================================
+   HERO GENERIC
+========================================================= */
+.hero,
+.concept-hero,
+.about-hero,
+.portfolio-hero,
+.contact-hero {
+    padding:
+        7rem
+        var(--container-padding)
+        6rem;
+}
+/* =========================================================
+   GENERIC TOPLINE
+========================================================= */
+.hero-topline,
+.concept-topline,
+.about-topline,
+.portfolio-topline,
+.contact-topline {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 4rem;
+}
+.hero-topline p,
+.concept-topline p,
+.about-topline p,
+.portfolio-topline p,
+.contact-topline p {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    opacity: 0.55;
+}
+/* =========================================================
+   LARGE STATEMENT
+========================================================= */
+.statement-title {
+    font-size:
+        clamp(4rem, 8vw, 10rem);
+    max-width: 14ch;
+    line-height: 0.9;
+}
+.statement-small {
+    max-width: 32ch;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+    opacity: 0.65;
+}
+/* =========================================================
+   FOOTER
+========================================================= */
+.site-footer {
+    padding:
+        8rem
+        var(--container-padding)
+        3rem;
+    border-top:
+        1px solid var(--border-color);
+}
+/* =========================================================
+   FOOTER TOP
+========================================================= */
+.footer-top {
+    display: grid;
+    grid-template-columns:
+        1.4fr
+        1fr
+        1fr;
+    gap: 5rem;
+    margin-bottom: 8rem;
+}
+/* =========================================================
+   FOOTER TEXT
+========================================================= */
+.footer-description {
+    max-width: 28ch;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    opacity: 0.65;
+}
+/* =========================================================
+   FOOTER LABEL
+========================================================= */
+.footer-label {
+    display: block;
+    margin-bottom: 1.5rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    opacity: 0.45;
+}
+/* =========================================================
+   FOOTER LINKS
+========================================================= */
+.footer-navigation ul,
+.footer-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.footer-navigation a,
+.footer-contact a {
+    width: fit-content;
+    font-size: 0.95rem;
+    opacity: 0.75;
+    transition: var(--transition-fast);
+}
+.footer-navigation a:hover,
+.footer-contact a:hover {
+    opacity: 1;
+}
+/* =========================================================
+   FOOTER STATEMENT
+========================================================= */
+.footer-statement {
+    margin-bottom: 5rem;
+}
+.footer-statement h2 {
+    font-size:
+        clamp(5rem, 10vw, 13rem);
+    line-height: 0.82;
+    letter-spacing: -0.08em;
+}
+/* =========================================================
+   FOOTER BOTTOM
+========================================================= */
+.footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 2rem;
+    border-top:
+        1px solid var(--border-color);
+}
+.footer-bottom p {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    opacity: 0.45;
+}
+/* =========================================================
+   REVEAL ANIMATION
+========================================================= */
+.fade-up {
+    opacity: 0;
+    transform: translateY(60px);
+    animation:
+        fadeUp
+        1.2s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        forwards;
+}
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* =========================================================
+   IMAGE HOVER
+========================================================= */
+.portfolio-image,
+.hero-image,
+.area-image,
+.moodboard-image,
+.contact-main-image,
+.visual-split-image {
+    overflow: hidden;
+}
+.portfolio-image img,
+.hero-image img,
+.area-image img,
+.moodboard-image img,
+.contact-main-image img,
+.visual-split-image img {
+    transition:
+        transform
+        1.4s
+        cubic-bezier(0.16, 1, 0.3, 1);
+}
+.portfolio-image:hover img,
+.hero-image:hover img,
+.area-image:hover img,
+.moodboard-image:hover img,
+.contact-main-image:hover img,
+.visual-split-image:hover img {
+    transform: scale(1.04);
+}
+/* =========================================================
+   FORM ELEMENTS
+========================================================= */
+input,
+textarea,
+select {
+    width: 100%;
+    padding:
+        1.2rem
+        0;
+    background: transparent;
+    border: none;
+    border-bottom:
+        1px solid rgba(13, 13, 13, 0.12);
+    outline: none;
+    transition: var(--transition-fast);
+}
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--black);
+}
+textarea {
+    resize: vertical;
+}
+/* =========================================================
+   SUBMIT BUTTON
+========================================================= */
+.submit-button {
+    width: fit-content;
+    margin-top: 2rem;
+    padding:
+        1.25rem
+        2rem;
+    background: var(--black);
+    color: var(--white);
+    border: none;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+.submit-button:hover {
+    background: var(--peach);
+    color: var(--black);
+}
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media screen and (max-width: 1100px) {
+    .main-navigation,
+    .header-right {
+        display: none;
+    }
+    .menu-toggle {
+        display: block;
+    }
+    .footer-top {
+        grid-template-columns: 1fr;
+    }
+}
+@media screen and (max-width: 768px) {
+    :root {
+        --container-padding: 1.4rem;
+        --section-spacing: 7rem;
+    }
+    .hero,
+    .concept-hero,
+    .about-hero,
+    .portfolio-hero,
+    .contact-hero {
+        padding-top: 8rem;
+    }
+    .statement-title {
+        font-size: 3.5rem;
+    }
+    .footer-statement h2 {
+        font-size: 4rem;
+    }
+    .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+}

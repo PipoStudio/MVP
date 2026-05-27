@@ -1,0 +1,379 @@
+/* =========================================================
+   PORTAFOLIO.CSS — AMPLIFY STUDIO
+   Advanced Editorial Portfolio Layout
+========================================================= */
+/* =========================================================
+   PORTFOLIO HERO
+========================================================= */
+.portfolio-hero {
+    position: relative;
+    overflow: hidden;
+}
+.portfolio-title {
+    max-width: 11ch;
+}
+/* =========================================================
+   PORTFOLIO AREA
+========================================================= */
+.portfolio-area {
+    position: relative;
+}
+.portfolio-area::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 1px;
+    height: 100%;
+    background:
+        linear-gradient(
+            to bottom,
+            transparent,
+            rgba(13, 13, 13, 0.05),
+            transparent
+        );
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+/* =========================================================
+   AREA HEADING
+========================================================= */
+.area-heading-grid {
+    align-items: flex-start;
+}
+.area-heading-right {
+    max-width: 80rem;
+}
+.area-heading-right h2 {
+    line-height: 0.92;
+}
+/* =========================================================
+   PROJECT BLOCK
+========================================================= */
+.project-block {
+    position: relative;
+}
+.project-block::after {
+    content: "";
+    position: absolute;
+    bottom: -5rem;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background:
+        linear-gradient(
+            to right,
+            transparent,
+            rgba(13, 13, 13, 0.08),
+            transparent
+        );
+}
+/* =========================================================
+   PROJECT HEADING
+========================================================= */
+.project-heading {
+    padding-bottom: 1.5rem;
+    border-bottom:
+        1px solid rgba(13, 13, 13, 0.08);
+}
+.project-heading h3 {
+    letter-spacing: -0.06em;
+}
+/* =========================================================
+   PROJECT NUMBER
+========================================================= */
+.project-number {
+    position: relative;
+    padding-left: 1.2rem;
+}
+.project-number::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: var(--peach);
+    transform: translateY(-50%);
+}
+/* =========================================================
+   PORTFOLIO IMAGE
+========================================================= */
+.portfolio-image {
+    position: relative;
+    overflow: hidden;
+    background: #EDEDED;
+    isolation: isolate;
+    cursor: pointer;
+}
+/* =========================================================
+   IMAGE OVERLAY
+========================================================= */
+.portfolio-image::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            to top,
+            rgba(0, 0, 0, 0.45),
+            transparent 55%
+        );
+    opacity: 0;
+    transition: var(--transition-smooth);
+    z-index: 1;
+}
+/* =========================================================
+   IMAGE HOVER
+========================================================= */
+.portfolio-image:hover::before {
+    opacity: 1;
+}
+.portfolio-image img {
+    filter:
+        saturate(0.96)
+        contrast(1.02);
+}
+.portfolio-image:hover img {
+    transform: scale(1.05);
+}
+/* =========================================================
+   OPTIONAL CAPTION
+========================================================= */
+.portfolio-image::after {
+    content: "View Project";
+    position: absolute;
+    left: 2rem;
+    bottom: 2rem;
+    color: var(--white);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: var(--transition-smooth);
+    z-index: 2;
+}
+.portfolio-image:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* =========================================================
+   COLLAGE GRID
+========================================================= */
+.collage-grid {
+    grid-auto-rows: 7rem;
+}
+/* =========================================================
+   IMAGE SHAPES
+========================================================= */
+.square-large {
+    min-height: 42rem;
+}
+.square-small {
+    min-height: 20rem;
+}
+.square-wide {
+    min-height: 34rem;
+}
+.square-vertical {
+    min-height: 27rem;
+}
+.square-medium {
+    min-height: 20rem;
+}
+/* =========================================================
+   PORTRAIT GRID
+========================================================= */
+.portrait-grid {
+    grid-auto-rows: 6rem;
+}
+.portrait-tall {
+    min-height: 42rem;
+}
+.portrait-small {
+    min-height: 24rem;
+}
+.portrait-large {
+    min-height: 48rem;
+}
+.portrait-medium {
+    min-height: 24rem;
+}
+/* =========================================================
+   CINEMATIC GRID
+========================================================= */
+.cinematic-grid {
+    grid-auto-rows: 7rem;
+}
+.cinematic-full {
+    min-height: 38rem;
+}
+.cinematic-left,
+.cinematic-right {
+    min-height: 26rem;
+}
+/* =========================================================
+   WIDESCREEN GRID
+========================================================= */
+.widescreen-grid {
+    grid-auto-rows: 6rem;
+}
+.widescreen-full {
+    min-height: 34rem;
+}
+.widescreen-half {
+    min-height: 26rem;
+}
+/* =========================================================
+   CAMPAIGN GRID
+========================================================= */
+.campaign-grid {
+    grid-auto-rows: 6rem;
+}
+.campaign-large {
+    min-height: 40rem;
+}
+.campaign-small {
+    min-height: 19rem;
+}
+.campaign-wide {
+    min-height: 24rem;
+}
+/* =========================================================
+   FINAL PORTRAIT GRID
+========================================================= */
+.final-portrait-grid {
+    grid-auto-rows: 6rem;
+}
+.final-portrait-large {
+    min-height: 46rem;
+}
+.final-portrait-small {
+    min-height: 28rem;
+}
+.final-portrait-medium {
+    min-height: 46rem;
+}
+/* =========================================================
+   OFFSET PROJECTS
+========================================================= */
+.offset-project {
+    margin-left: 8vw;
+}
+.cinematic-project {
+    margin-right: 5vw;
+}
+.final-project {
+    margin-left: 4vw;
+}
+/* =========================================================
+   STATEMENT
+========================================================= */
+.portfolio-statement {
+    position: relative;
+    overflow: hidden;
+}
+.portfolio-statement::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 90vw;
+    height: 90vw;
+    border-radius: 50%;
+    border:
+        1px solid rgba(13, 13, 13, 0.04);
+    transform:
+        translate(-50%, -50%);
+}
+/* =========================================================
+   CTA
+========================================================= */
+.portfolio-cta {
+    position: relative;
+    border-top:
+        1px solid rgba(13, 13, 13, 0.08);
+}
+/* =========================================================
+   PARALLAX FEEL
+========================================================= */
+.portfolio-image img {
+    will-change: transform;
+}
+/* =========================================================
+   SCROLL REVEAL
+========================================================= */
+.project-block {
+    opacity: 0;
+    transform: translateY(80px);
+    animation:
+        portfolioReveal
+        1.2s
+        cubic-bezier(0.16, 1, 0.3, 1)
+        forwards;
+}
+.project-block:nth-child(2) {
+    animation-delay: 0.1s;
+}
+.project-block:nth-child(3) {
+    animation-delay: 0.2s;
+}
+.project-block:nth-child(4) {
+    animation-delay: 0.3s;
+}
+@keyframes portfolioReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media screen and (max-width: 1200px) {
+    .offset-project,
+    .cinematic-project,
+    .final-project {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+@media screen and (max-width: 768px) {
+    .portfolio-area::before,
+    .portfolio-statement::before {
+        display: none;
+    }
+    .project-block {
+        margin-bottom: 6rem;
+    }
+    .portfolio-image::after {
+        left: 1.2rem;
+        bottom: 1.2rem;
+        font-size: 0.65rem;
+    }
+    .square-large,
+    .square-small,
+    .square-wide,
+    .square-vertical,
+    .square-medium,
+    .portrait-tall,
+    .portrait-small,
+    .portrait-large,
+    .portrait-medium,
+    .cinematic-full,
+    .cinematic-left,
+    .cinematic-right,
+    .widescreen-full,
+    .widescreen-half,
+    .campaign-large,
+    .campaign-small,
+    .campaign-wide,
+    .final-portrait-large,
+    .final-portrait-small,
+    .final-portrait-medium {
+        min-height: 24rem;
+    }
+}

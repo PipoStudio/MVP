@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="producto.css">
+    <title>Amplify Studio | Selección</title>
+</head>
+<body>
+
+    <div class="portfolio-wrapper">
+        <div class="slider-container" id="slider">
+            <a href="fotomontaje.html" class="card">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800" alt="Fotomontaje">
+            </a>
+            <a href="retouching.html" class="card">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800" alt="Retouching">
+            </a>
+            <a href="design.html" class="card">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800" alt="Diseño">
+            </a>
+            
+            <div class="card card-final" onclick="revelarPortafolioCompleto()">
+                <h3>Ver todo</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="portfolio-completo" style="display: none;">
+        <h1>Portafolio General</h1>
+        <a href="portafolio.html" class="btn-ver-todo">Ir al archivo completo</a>
+    </div>
+
+    <script src="producto.js"></script>
+</body>
+</html>
