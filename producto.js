@@ -3,7 +3,7 @@
 ========================================== */
 let scrollState = 'zoom'; 
 let currentScale = 1;
-let sliderPosition = 0;
+let sliderX = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
     // Inicialización de funciones existentes
@@ -14,46 +14,48 @@ document.addEventListener("DOMContentLoaded", () => {
     initHeaderBehavior();
     initMobileMenu();
     initRevealAnimations();
-
-    // Lógica del Portafolio (Iniciada una sola vez aquí)
-    const container = document.getElementById('slider');
-    if (container) {
-        window.addEventListener('wheel', (e) => {
-            e.preventDefault();
-
-            // 1. ESTADO ZOOM
-            if (scrollState === 'zoom') {
-                currentScale += e.deltaY * 0.002;
-                currentScale = Math.min(Math.max(currentScale, 1), 5);
-                container.style.transform = `scale(${currentScale}) translateX(0px)`;
-
-                if (currentScale >= 5) {
-                    scrollState = 'slider';
-                    console.log("Estado: SLIDER ACTIVADO");
-                }
-            } 
-            // 2. ESTADO SLIDER
-            else if (scrollState === 'slider') {
-                const maxScroll = (container.scrollWidth) - window.innerWidth;
-                
-                sliderPosition += e.deltaY * 0.8; 
-                sliderPosition = Math.max(0, Math.min(sliderPosition, maxScroll));
-                
-                container.style.transform = `scale(5) translateX(${-sliderPosition / 5}px)`;
-                
-                // Transición al portafolio completo
-                if (sliderPosition >= maxScroll - 10 && e.deltaY > 0) {
-                     scrollState = 'portfolio';
-                     revelarPortafolioCompleto();
-                }
-                
-                if (sliderPosition <= 0 && e.deltaY < 0) {
-                    scrollState = 'zoom';
-                }
-            }
-        }, { passive: false });
-    }
 });
+
+/* ==========================================
+   LÓGICA DEL PORTAFOLIO (NUEVA)
+========================================== */
+window.addEventListener('wheel', (e) => {
+    const container = document.getElementById('slider');
+    if (!container) return; // Si no existe el slider, no ejecutamos esta lógica
+
+    e.preventDefault();
+
+    // 1. ESTADO ZOOM
+    if (scrollState === 'zoom') {
+        currentScale = Math.min(Math.max(currentScale + e.deltaY * 0.002, 1), 4);
+        container.style.transform = `scale(${currentScale})`;
+        
+        if (currentScale >= 4) {
+            scrollState = 'slider';
+            console.log("Estado: SLIDER");
+        }
+    } 
+    // 2. ESTADO SLIDER
+    else if (scrollState === 'slider') {
+        // Movimiento horizontal suave
+        sliderX -= e.deltaY * 0.5;
+        
+        // Límite manual: Ajusta este -2000 según tus necesidades de ancho real
+        sliderX = Math.max(-2000, Math.min(0, sliderX));
+        
+        container.style.transform = `scale(4) translateX(${sliderX}px)`;
+
+        // Transición final (Solo se dispara al final del scroll)
+        if (sliderX <= -1990) { 
+            revelarPortafolioCompleto();
+        }
+
+        // Scroll inverso para regresar al zoom
+        if (sliderX >= 0 && e.deltaY < 0) {
+            scrollState = 'zoom';
+        }
+    }
+}, { passive: false });
 
 /* ==========================================
    FUNCIÓN DE REVELACIÓN
@@ -75,7 +77,7 @@ function revelarPortafolioCompleto() {
 }
 
 /* ==========================================
-   FUNCIONES EXISTENTES
+   FUNCIONES EXISTENTES (MANTENIDAS ÍNTEGRAS)
 ========================================== */
 function inyectarElementos() {
     if (!document.querySelector('.site-loader')) {
@@ -112,9 +114,76 @@ function initCursor() {
     window.addEventListener("mousemove", (e) => { mouseX = e.clientX; mouseY = e.clientY; });
 }
 
-// Nota: Asegúrate de tener implementadas las funciones restantes que llamaste en DOMContentLoaded
-function initLoader() {} 
-function initPageTransitions() {} 
-function initHeaderBehavior() {} 
-function initMobileMenu() {} 
-function initRevealAnimations() {}
+function initLoader() {
+    const loader = document.querySelector(".site-loader");
+    if (!loader) return;
+    if (sessionStorage.getItem('loader-viewed')) {
+        loader.style.display = 'none';
+        return;
+    }
+    window.addEventListener('load', () => {
+        loader.classList.add("hidden");
+        sessionStorage.setItem('loader-viewed', 'true');
+        setTimeout(() => loader.style.display = 'none', 1000);
+    });
+}
+
+function initPageTransitions() {
+    const transitionLayer = document.querySelector(".page-transition");
+    document.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", (e) => {
+            const href = link.getAttribute("href");
+            if (href && (href.startsWith('/') || href.startsWith('.'))) {
+                e.preventDefault();
+                const loader = document.querySelector(".site-loader");
+                if (loader) {
+                    loader.style.display = 'flex';
+                    loader.classList.remove("hidden");
+                }
+                setTimeout(() => { window.location.href = href; }, 800);
+            }
+        });
+    });
+}
+
+function initHeaderBehavior() {
+    const header = document.querySelector(".site-header");
+    if (!header) return;
+    let lastScroll = 0;
+    window.addEventListener("scroll", () => {
+        const currentScroll = window.scrollY;
+        if (currentScroll > 40) header.classList.add("scrolled");
+        else header.classList.remove("scrolled");
+        header.style.transform = (currentScroll > lastScroll && currentScroll > 120) 
+            ? "translateY(-100%)" : "translateY(0%)";
+        lastScroll = currentScroll;
+    });
+}
+
+function initMobileMenu() {
+    const btn = document.querySelector(".menu-toggle");
+    const nav = document.querySelector(".main-navigation");
+    if (!btn || !nav) return;
+    btn.addEventListener("click", () => {
+        nav.classList.toggle("mobile-active");
+        btn.classList.toggle("active");
+        document.body.style.overflow = nav.classList.contains("mobile-active") ? "hidden" : "";
+    });
+}
+
+function initRevealAnimations() {
+    const elements = document.querySelectorAll(".fade-up, .fade-left, .fade-right, .scale-in");
+    if (!elements.length) return;
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animationPlayState = "running";
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    elements.forEach(el => {
+        el.style.animationPlayState = "paused";
+        observer.observe(el);
+    });
+}
