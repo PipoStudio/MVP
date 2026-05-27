@@ -6,6 +6,7 @@ let currentScale = 1;
 let sliderPosition = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Inicialización de funciones existentes
     inyectarElementos();
     initLoader();
     initCursor();
@@ -13,53 +14,50 @@ document.addEventListener("DOMContentLoaded", () => {
     initHeaderBehavior();
     initMobileMenu();
     initRevealAnimations();
+
+    // Lógica del Portafolio (Iniciada una sola vez aquí)
+    const container = document.getElementById('slider');
+    if (container) {
+        window.addEventListener('wheel', (e) => {
+            e.preventDefault();
+
+            // 1. ESTADO ZOOM
+            if (scrollState === 'zoom') {
+                currentScale += e.deltaY * 0.002;
+                currentScale = Math.min(Math.max(currentScale, 1), 5);
+                container.style.transform = `scale(${currentScale}) translateX(0px)`;
+
+                if (currentScale >= 5) {
+                    scrollState = 'slider';
+                    console.log("Estado: SLIDER ACTIVADO");
+                }
+            } 
+            // 2. ESTADO SLIDER
+            else if (scrollState === 'slider') {
+                const maxScroll = (container.scrollWidth) - window.innerWidth;
+                
+                sliderPosition += e.deltaY * 0.8; 
+                sliderPosition = Math.max(0, Math.min(sliderPosition, maxScroll));
+                
+                container.style.transform = `scale(5) translateX(${-sliderPosition / 5}px)`;
+                
+                // Transición al portafolio completo
+                if (sliderPosition >= maxScroll - 10 && e.deltaY > 0) {
+                     scrollState = 'portfolio';
+                     revelarPortafolioCompleto();
+                }
+                
+                if (sliderPosition <= 0 && e.deltaY < 0) {
+                    scrollState = 'zoom';
+                }
+            }
+        }, { passive: false });
+    }
 });
 
 /* ==========================================
-   LÓGICA DEL PORTAFOLIO (NUEVA)
+   FUNCIÓN DE REVELACIÓN
 ========================================== */
-window.addEventListener('wheel', (e) => {
-    const container = document.getElementById('slider');
-    if (!container) return;
-
-    e.preventDefault();
-
-    // 1. ESTADO ZOOM
-    if (scrollState === 'zoom') {
-        currentScale += e.deltaY * 0.002;
-        currentScale = Math.min(Math.max(currentScale, 1), 5);
-        container.style.transform = `scale(${currentScale}) translateX(0px)`;
-
-        if (currentScale >= 5) {
-            scrollState = 'slider';
-        }
-    } 
-    // 2. ESTADO SLIDER
-   else if (scrollState === 'slider') {
-    const maxScroll = (container.scrollWidth) - window.innerWidth;
-    
-    // Aumentamos la resistencia al scroll para que no sea tan sensible
-    sliderPosition += e.deltaY * 0.5; 
-    console.log("Posición:", sliderPosition, "de", maxScroll);
-    
-    sliderPosition = Math.max(0, Math.min(sliderPosition, maxScroll));
-    container.style.transform = `scale(5) translateX(${-sliderPosition / 5}px)`;
-    
-    // CAMBIO CRÍTICO: Solo pasamos a 'portfolio' si estamos al final Y el usuario hace un scroll extra
-    if (sliderPosition >= maxScroll - 10) {
-        // En lugar de disparar la función aquí, esperamos a que el deltaY sea positivo y grande
-        if (e.deltaY > 20) { 
-            scrollState = 'portfolio';
-            revelarPortafolioCompleto();
-        }
-    }
-    
-    if (sliderPosition <= 0 && e.deltaY < 0) {
-        scrollState = 'zoom';
-    }
-}
-}, { passive: false });
-
 function revelarPortafolioCompleto() {
     const wrapper = document.querySelector('.portfolio-wrapper');
     const completo = document.querySelector('.portfolio-completo');
@@ -77,7 +75,7 @@ function revelarPortafolioCompleto() {
 }
 
 /* ==========================================
-   FUNCIONES EXISTENTES (MANTENIDAS)
+   FUNCIONES EXISTENTES
 ========================================== */
 function inyectarElementos() {
     if (!document.querySelector('.site-loader')) {
@@ -114,8 +112,9 @@ function initCursor() {
     window.addEventListener("mousemove", (e) => { mouseX = e.clientX; mouseY = e.clientY; });
 }
 
-function initLoader() { /* ... tu lógica original ... */ }
-function initPageTransitions() { /* ... tu lógica original ... */ }
-function initHeaderBehavior() { /* ... tu lógica original ... */ }
-function initMobileMenu() { /* ... tu lógica original ... */ }
-function initRevealAnimations() { /* ... tu lógica original ... */ }
+// Nota: Asegúrate de tener implementadas las funciones restantes que llamaste en DOMContentLoaded
+function initLoader() {} 
+function initPageTransitions() {} 
+function initHeaderBehavior() {} 
+function initMobileMenu() {} 
+function initRevealAnimations() {}

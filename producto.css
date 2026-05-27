@@ -18,10 +18,11 @@ body, html {
 
 .slider-container {
     display: flex;
-    flex-wrap: nowrap; /* IMPORTANTE: Asegura que no se bajen a una segunda fila */
+    flex-wrap: nowrap;
     gap: 5vw;
-    min-width: 120vw;
-    height: 100vh; /* Cambia a 100vh para que ocupen toda la altura */
+    /* Aumenta esto si sientes que no hay suficiente espacio para scrollear */
+    min-width: 400vw; 
+    height: 100vh;
     align-items: center; 
     transition: transform 0.1s ease-out;
     transform-origin: left center;
