@@ -1,347 +1,573 @@
-/* ==========================================
-   CONFIGURACIÓN Y VARIABLES GLOBALES
-========================================== */
-let scrollState = 'zoom'; 
-let currentScale = 1;
-let sliderX = 0;
-let isScrolling = false;
-let scrollTimeout;
-let lastDeltaY = 0;
-const SCROLL_DEBOUNCE = 50; // ms entre actualizaciones
-const SCALE_SPEED = 0.002;
-const SLIDER_SPEED = 0.5;
-const MIN_SCALE = 1;
-const MAX_SCALE = 5;
-const TRANSITION_THRESHOLD = 0.95; // 95% del scroll máximo
-
-document.addEventListener("DOMContentLoaded", () => {
-    // Inicialización de funciones existentes
-    inyectarElementos();
-    initLoader();
+/* =========================
+   DOM
+========================= */
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+        initExperience();
+    }
+);
+/* =========================================================
+   INIT
+========================================================= */
+function initExperience() {
+    initBodyMode();
     initCursor();
     initPageTransitions();
-    initHeaderBehavior();
-    initMobileMenu();
-    initRevealAnimations();
-    
-    // Inicializar el sistema de portafolio
-    initPortfolioSystem();
-});
-
-/* ==========================================
-   SISTEMA DE PORTAFOLIO CON SCROLL TRIGGER
-========================================== */
-function initPortfolioSystem() {
-    const container = document.getElementById('slider');
-    if (!container) return;
-    
-    // Registrar estado en history
-    if (window.location.hash === '') {
-        history.replaceState({ state: 'zoom', scale: 1, sliderX: 0 }, '', window.location.href);
-    }
-    
-    // Escuchar cambios en history (botón atrás)
-    window.addEventListener('popstate', (e) => {
-        if (e.state) {
-            scrollState = e.state.state;
-            currentScale = e.state.scale;
-            sliderX = e.state.sliderX;
-            updateContainerTransform();
-        }
-    });
+    initImmersiveSlider();
+    initFooterUnlock();
+    initHeroFade();
 }
-
-function updateContainerTransform() {
-    const container = document.getElementById('slider');
-    if (!container) return;
-    
-    if (scrollState === 'zoom') {
-        container.style.transform = `scale(${currentScale})`;
-    } else if (scrollState === 'slider') {
-        container.style.transform = `scale(${currentScale}) translateX(${sliderX}px)`;
-    }
-}
-
-function updateHistoryState() {
-    history.pushState(
-        { state: scrollState, scale: currentScale, sliderX: sliderX },
-        '',
-        window.location.href
+/* =========================================================
+   BODY MODE
+========================================================= */
+function initBodyMode() {
+    document.body.classList.add(
+        "horizontal-mode"
     );
 }
-
-/* ==========================================
-   HANDLER PRINCIPAL CON DEBOUNCE
-========================================== */
-window.addEventListener('wheel', (e) => {
-    const container = document.getElementById('slider');
-    if (!container) return;
-    
-    // Prevenir scroll nativo
-    e.preventDefault();
-    
-    // Debounce: acumular delta dentro del timeout
-    lastDeltaY += e.deltaY;
-    
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-        procesarScroll(lastDeltaY, container);
-        lastDeltaY = 0;
-    }, SCROLL_DEBOUNCE);
-    
-}, { passive: false });
-
-/* ==========================================
-   PROCESAMIENTO DE SCROLL CON LÓGICA DE ESTADOS
-========================================== */
-function procesarScroll(deltaY, container) {
-    // 1. ESTADO ZOOM: Escalar el contenedor
-    if (scrollState === 'zoom') {
-        const newScale = currentScale + deltaY * SCALE_SPEED;
-        currentScale = Math.min(Math.max(newScale, MIN_SCALE), MAX_SCALE);
-        
-        updateContainerTransform();
-        updateHistoryState();
-        
-        console.log(`🔍 ZOOM: ${currentScale.toFixed(2)}x`);
-        
-        // Transición automática al llegar a MAX_SCALE
-        if (currentScale >= MAX_SCALE - 0.1) {
-            transicionarASlider();
-        }
-        return;
-    }
-    
-    // 2. ESTADO SLIDER: Desplazamiento horizontal
-    if (scrollState === 'slider') {
-        const maxScroll = calcularMaxScroll(container);
-        
-        // Invertir dirección: scroll hacia abajo = movimiento izquierda
-        sliderX -= deltaY * SLIDER_SPEED;
-        sliderX = Math.max(maxScroll, Math.min(0, sliderX));
-        
-        updateContainerTransform();
-        updateHistoryState();
-        
-        console.log(`📊 SLIDER: ${sliderX.toFixed(0)}px / ${maxScroll.toFixed(0)}px`);
-        
-        // Verificar si llegamos al final
-        if (sliderX <= maxScroll * TRANSITION_THRESHOLD) {
-            console.log("✨ Alcanzado final de slider - Revelando portafolio");
-            setTimeout(revelarPortafolioCompleto, 300);
-        }
-        
-        // Permitir regreso al zoom si volvemos al inicio
-        if (sliderX >= -50 && deltaY < 0) {
-            transicionarAZoom();
-        }
-        return;
-    }
-}
-
-/* ==========================================
-   CÁLCULO DINÁMICO DE MAX SCROLL
-========================================== */
-function calcularMaxScroll(container) {
-    // El scrollWidth nos da el ancho total del contenedor con sus hijos
-    const scrollableWidth = container.scrollWidth;
-    
-    // El ancho visible es el viewport
-    const visibleWidth = window.innerWidth;
-    
-    // La diferencia es lo máximo que podemos desplazar
-    // Multiplicamos por el scale para ajustar al zoom actual
-    const maxScroll = -(scrollableWidth * currentScale - visibleWidth);
-    
-    // Asegurar que no sea un número inválido
-    return isNaN(maxScroll) ? -2000 : maxScroll;
-}
-
-/* ==========================================
-   TRANSICIONES DE ESTADO
-========================================== */
-function transicionarASlider() {
-    if (scrollState !== 'zoom') return;
-    
-    scrollState = 'slider';
-    sliderX = 0; // Reiniciar desde el inicio
-    
-    const container = document.getElementById('slider');
-    if (container) {
-        container.style.transition = 'transform 0.3s ease-out';
-        updateContainerTransform();
-        
-        setTimeout(() => {
-            container.style.transition = 'transform 0.1s ease-out';
-        }, 300);
-    }
-    
-    updateHistoryState();
-    console.log("↔️  TRANSICIÓN: zoom → slider");
-}
-
-function transicionarAZoom() {
-    if (scrollState !== 'slider') return;
-    
-    scrollState = 'zoom';
-    
-    const container = document.getElementById('slider');
-    if (container) {
-        container.style.transition = 'transform 0.3s ease-out';
-        updateContainerTransform();
-        
-        setTimeout(() => {
-            container.style.transition = 'transform 0.1s ease-out';
-        }, 300);
-    }
-    
-    updateHistoryState();
-    console.log("↔️  TRANSICIÓN: slider → zoom");
-}
-
-/* ==========================================
-   FUNCIÓN DE REVELACIÓN CON HISTORIAL
-========================================== */
-function revelarPortafolioCompleto() {
-    const wrapper = document.querySelector('.portfolio-wrapper');
-    const completo = document.querySelector('.portfolio-completo');
-    
-    if (!wrapper || !completo) return;
-    
-    // Guardar estado anterior en el historial
-    history.pushState(
-        { state: 'portfolio-complete', scale: currentScale, sliderX: sliderX },
-        'Portafolio Completo',
-        window.location.href
-    );
-    
-    // Animar desaparición
-    wrapper.style.transition = "opacity 0.8s ease";
-    wrapper.style.opacity = '0';
-    
-    setTimeout(() => {
-        wrapper.style.display = 'none';
-        completo.style.display = 'block';
-        completo.style.opacity = '0';
-        
-        // Trigger reflow para que se aplique el display
-        void completo.offsetHeight;
-        
-        completo.style.transition = 'opacity 0.8s ease';
-        completo.style.opacity = '1';
-    }, 800);
-    
-    scrollState = 'portfolio-complete';
-}
-
-/* ==========================================
-   FUNCIONES EXISTENTES (MANTENIDAS ÍNTEGRAS)
-========================================== */
-function inyectarElementos() {
-    if (!document.querySelector('.site-loader')) {
-        const elementos = `
-            <div class="site-loader">
-                <h1 class="loader-logo">Amplify<span>.</span></h1>
-                <div class="loader-line"></div>
-            </div>
-            <div class="custom-cursor"></div>
-            <div class="page-transition"></div>
-        `;
-        document.body.insertAdjacentHTML('afterbegin', elementos);
-    }
-}
-
+/* =========================================================
+   CURSOR
+========================================================= */
 function initCursor() {
-    const cursor = document.querySelector(".custom-cursor");
+    const cursor =
+        document.querySelector(
+            ".magnify-cursor"
+        );
     if (!cursor) return;
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
+    /* =========================
+       VALUES
+    ========================= */
+    let mouseX =
+        window.innerWidth / 2;
+    let mouseY =
+        window.innerHeight / 2;
     let currentX = mouseX;
     let currentY = mouseY;
     let currentScale = 1;
-
+    let targetScale = 1;
+    /* =========================
+       READY
+    ========================= */
+    document.body.classList.add(
+        "cursor-ready"
+    );
+    /* =========================
+       MOVE
+    ========================= */
+    window.addEventListener(
+        "mousemove",
+        (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        }
+    );
+    /* =========================
+       HOVER
+    ========================= */
+    const hoverTargets =
+        document.querySelectorAll(
+            "a, button, .discipline-card"
+        );
+    hoverTargets.forEach((el) => {
+        el.addEventListener(
+            "mouseenter",
+            () => {
+                targetScale = 1.4;
+            }
+        );
+        el.addEventListener(
+            "mouseleave",
+            () => {
+                targetScale = 1;
+            }
+        );
+    });
+    /* =========================
+       RAF
+    ========================= */
     function animateCursor() {
-        currentX += (mouseX - currentX) * 0.14;
-        currentY += (mouseY - currentY) * 0.14;
-        cursor.style.left = currentX + "px";
-        cursor.style.top = currentY + "px";
-        cursor.style.transform = `translate(-50%, -50%) scale(${currentScale})`;
-        requestAnimationFrame(animateCursor);
+        currentX +=
+            (mouseX - currentX) * 0.12;
+        currentY +=
+            (mouseY - currentY) * 0.12;
+        currentScale +=
+            (targetScale - currentScale)
+            * 0.1;
+        cursor.style.left =
+            currentX + "px";
+        cursor.style.top =
+            currentY + "px";
+        cursor.style.transform =
+            `
+            translate(-50%, -50%)
+            scale(${currentScale})
+            `;
+        requestAnimationFrame(
+            animateCursor
+        );
     }
     animateCursor();
-    window.addEventListener("mousemove", (e) => { mouseX = e.clientX; mouseY = e.clientY; });
 }
-
-function initLoader() {
-    const loader = document.querySelector(".site-loader");
-    if (!loader) return;
-    if (sessionStorage.getItem('loader-viewed')) {
-        loader.style.display = 'none';
-        return;
-    }
-    window.addEventListener('load', () => {
-        loader.classList.add("hidden");
-        sessionStorage.setItem('loader-viewed', 'true');
-        setTimeout(() => loader.style.display = 'none', 1000);
-    });
-}
-
+/* =========================================================
+   TRANSITIONS
+========================================================= */
 function initPageTransitions() {
-    const transitionLayer = document.querySelector(".page-transition");
-    document.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", (e) => {
-            const href = link.getAttribute("href");
-            if (href && (href.startsWith('/') || href.startsWith('.'))) {
+    const links =
+        document.querySelectorAll(
+            "[data-transition]"
+        );
+    links.forEach((link) => {
+        link.addEventListener(
+            "click",
+            (e) => {
+                const href =
+                    link.getAttribute(
+                        "href"
+                    );
+                if (!href) return;
                 e.preventDefault();
-                const loader = document.querySelector(".site-loader");
-                if (loader) {
-                    loader.style.display = 'flex';
-                    loader.classList.remove("hidden");
-                }
-                setTimeout(() => { window.location.href = href; }, 800);
+                document.body.classList.add(
+                    "is-transitioning"
+                );
+                setTimeout(() => {
+                    window.location.href =
+                        href;
+                }, 900);
+            }
+        );
+    });
+}
+/* =========================================================
+   HERO FADE
+========================================================= */
+function initHeroFade() {
+    const hero =
+        document.querySelector(
+            ".experience-hero"
+        );
+    if (!hero) return;
+    let hidden = false;
+    window.addEventListener(
+        "wheel",
+        () => {
+            if (!hidden) {
+                hero.classList.add(
+                    "hero-hidden"
+                );
+                hidden = true;
+            }
+        },
+        { passive: true }
+    );
+}
+/* =========================================================
+   IMMERSIVE
+========================================================= */
+function initImmersiveSlider() {
+    const section =
+        document.getElementById(
+            "immersiveSection"
+        );
+    const wrapper =
+        document.getElementById(
+            "zoomWrapper"
+        );
+    const track =
+        document.getElementById(
+            "horizontalTrack"
+        );
+    const cards =
+        document.querySelectorAll(
+            ".discipline-card"
+        );
+    if (
+        !section ||
+        !wrapper ||
+        !track
+    ) return;
+    /* =========================
+       STATES
+    ========================= */
+    const STATES = {
+        ZOOM: "zoom",
+        HORIZONTAL:
+            "horizontal",
+        END: "end"
+    };
+    let currentState =
+        STATES.ZOOM;
+    /* =========================
+       VALUES
+    ========================= */
+    let currentScale = 1;
+    let targetScale = 1;
+    let currentX = 0;
+    let targetX = 0;
+    /* =========================
+       CONFIG
+    ========================= */
+    const MAX_SCALE = 4;
+    const MIN_SCALE = 1;
+    const SCALE_SPEED = 0.0022;
+    const HORIZONTAL_SPEED = 1.15;
+    const LERP = 0.08;
+    /* =========================
+       LIMITS
+    ========================= */
+    let maxTranslate = 0;
+    let firstOffset = 0;
+    /* =========================
+       CALCULATE
+    ========================= */
+    function calculateLimits() {
+        const viewport =
+            window.innerWidth;
+        const totalWidth =
+            track.scrollWidth;
+        const firstCard =
+            cards[0];
+        if (!firstCard) return;
+        firstOffset =
+            firstCard.offsetLeft
+            -
+            (
+                viewport
+                -
+                firstCard.offsetWidth
+            ) / 2;
+        maxTranslate =
+            totalWidth
+            -
+            viewport
+            +
+            (
+                viewport
+                -
+                firstCard.offsetWidth
+            ) / 2;
+    }
+    calculateLimits();
+    window.addEventListener(
+        "resize",
+        calculateLimits
+    );
+    /* =========================
+       INITIAL POSITION
+    ========================= */
+    targetX = firstOffset;
+    currentX = firstOffset;
+    /* =========================
+       RAF
+    ========================= */
+    function animateScene() {
+        currentScale +=
+            (targetScale - currentScale)
+            * LERP;
+        currentX +=
+            (targetX - currentX)
+            * LERP;
+        /* =====================
+           SCALE
+        ===================== */
+        wrapper.style.transform =
+            `
+            translate(-50%, -50%)
+            scale(${currentScale})
+            `;
+        /* =====================
+           TRACK
+        ===================== */
+        track.style.transform =
+            `
+            translate3d(
+                ${-currentX}px,
+                0,
+                0
+            )
+            `;
+        /* =====================
+           CARD MODES
+        ===================== */
+        updateCards();
+        requestAnimationFrame(
+            animateScene
+        );
+    }
+    animateScene();
+    /* =========================
+       UPDATE CARDS
+    ========================= */
+    function updateCards() {
+        const progress =
+            currentX /
+            Math.max(maxTranslate, 1);
+        cards.forEach((card, index) => {
+            const trigger =
+                index * 0.22;
+            if (
+                progress >= trigger
+            ) {
+                card.classList.add(
+                    "horizontal-mode"
+                );
+            } else {
+                card.classList.remove(
+                    "horizontal-mode"
+                );
             }
         });
-    });
-}
-
-function initHeaderBehavior() {
-    const header = document.querySelector(".site-header");
-    if (!header) return;
-    let lastScroll = 0;
-    window.addEventListener("scroll", () => {
-        const currentScroll = window.scrollY;
-        if (currentScroll > 40) header.classList.add("scrolled");
-        else header.classList.remove("scrolled");
-        header.style.transform = (currentScroll > lastScroll && currentScroll > 120) 
-            ? "translateY(-100%)" : "translateY(0%)";
-        lastScroll = currentScroll;
-    });
-}
-
-function initMobileMenu() {
-    const btn = document.querySelector(".menu-toggle");
-    const nav = document.querySelector(".main-navigation");
-    if (!btn || !nav) return;
-    btn.addEventListener("click", () => {
-        nav.classList.toggle("mobile-active");
-        btn.classList.toggle("active");
-        document.body.style.overflow = nav.classList.contains("mobile-active") ? "hidden" : "";
-    });
-}
-
-function initRevealAnimations() {
-    const elements = document.querySelectorAll(".fade-up, .fade-left, .fade-right, .scale-in");
-    if (!elements.length) return;
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.animationPlayState = "running";
-                observer.unobserve(entry.target);
+    }
+    /* =========================
+       WHEEL
+    ========================= */
+    window.addEventListener(
+        "wheel",
+        handleWheel,
+        { passive: false }
+    );
+    /* =========================
+       HANDLE
+    ========================= */
+    function handleWheel(e) {
+        const body =
+            document.body;
+        /* =====================
+           VERTICAL MODE
+        ===================== */
+        if (
+            body.classList.contains(
+                "vertical-mode"
+            )
+        ) {
+            return;
+        }
+        e.preventDefault();
+        const delta =
+            e.deltaY;
+                    /* =================================================
+           STATE — ZOOM
+        ================================================= */
+        if (
+            currentState === STATES.ZOOM
+        ) {
+            targetScale +=
+                delta * SCALE_SPEED;
+            targetScale =
+                clamp(
+                    targetScale,
+                    MIN_SCALE,
+                    MAX_SCALE
+                );
+            /* =============================================
+               ENTER HORIZONTAL
+            ============================================= */
+            if (
+                targetScale >= MAX_SCALE
+            ) {
+                targetScale =
+                    MAX_SCALE;
+                currentState =
+                    STATES.HORIZONTAL;
             }
-        });
-    }, { threshold: 0.1 });
-    elements.forEach(el => {
-        el.style.animationPlayState = "paused";
-        observer.observe(el);
+            /* =============================================
+               LIMIT
+            ============================================= */
+            if (
+                targetScale <= MIN_SCALE
+            ) {
+                targetScale =
+                    MIN_SCALE;
+            }
+        }
+        /* =================================================
+           STATE — HORIZONTAL
+        ================================================= */
+        else if (
+            currentState ===
+            STATES.HORIZONTAL
+        ) {
+            targetX +=
+                delta * HORIZONTAL_SPEED;
+            targetX =
+                clamp(
+                    targetX,
+                    firstOffset,
+                    maxTranslate
+                );
+            /* =============================================
+               RETURN TO ZOOM
+            ============================================= */
+            if (
+                targetX <= firstOffset &&
+                delta < 0
+            ) {
+                currentState =
+                    STATES.ZOOM;
+            }
+            /* =============================================
+               FINAL STATE
+            ============================================= */
+            if (
+                targetX >=
+                maxTranslate - 4
+            ) {
+                currentState =
+                    STATES.END;
+            }
+        }
+        /* =================================================
+           STATE — END
+        ================================================= */
+        else if (
+            currentState === STATES.END
+        ) {
+            targetX +=
+                delta * HORIZONTAL_SPEED;
+            targetX =
+                clamp(
+                    targetX,
+                    firstOffset,
+                    maxTranslate
+                );
+            /* =============================================
+               RETURN
+            ============================================= */
+            if (delta < 0) {
+                currentState =
+                    STATES.HORIZONTAL;
+            }
+        }
+    }
+    /* =========================
+       PARALLAX
+    ========================= */
+    cards.forEach((card) => {
+        const image =
+            card.querySelector("img");
+        if (!image) return;
+        card.addEventListener(
+            "mousemove",
+            (e) => {
+                const rect =
+                    card.getBoundingClientRect();
+                const x =
+                    (
+                        e.clientX -
+                        rect.left
+                    ) / rect.width;
+                const y =
+                    (
+                        e.clientY -
+                        rect.top
+                    ) / rect.height;
+                const moveX =
+                    (x - 0.5) * 22;
+                const moveY =
+                    (y - 0.5) * 22;
+                image.style.transform =
+                    `
+                    scale(1.08)
+                    translate(
+                        ${moveX}px,
+                        ${moveY}px
+                    )
+                    `;
+            }
+        );
+        card.addEventListener(
+            "mouseleave",
+            () => {
+                image.style.transform =
+                    `
+                    scale(1)
+                    translate(0px,0px)
+                    `;
+            }
+        );
     });
+}
+/* =========================================================
+   FOOTER UNLOCK
+========================================================= */
+function initFooterUnlock() {
+    const unlockButton =
+        document.getElementById(
+            "footerUnlock"
+        );
+    const footer =
+        document.querySelector(
+            ".site-footer"
+        );
+    if (
+        !unlockButton ||
+        !footer
+    ) return;
+    /* =========================
+       CLICK
+    ========================= */
+    unlockButton.addEventListener(
+        "click",
+        () => {
+            const body =
+                document.body;
+            /* =====================
+               ENABLE VERTICAL
+            ===================== */
+            body.classList.remove(
+                "horizontal-mode"
+            );
+            body.classList.add(
+                "vertical-mode"
+            );
+            /* =====================
+               SCROLL
+            ===================== */
+            footer.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+    );
+    /* =========================
+       RELOCK
+    ========================= */
+    window.addEventListener(
+        "scroll",
+        () => {
+            const body =
+                document.body;
+            const scrollY =
+                window.scrollY;
+            /* =====================
+               TOP AREA
+            ===================== */
+            if (
+                scrollY <= 120 &&
+                body.classList.contains(
+                    "vertical-mode"
+                )
+            ) {
+                body.classList.remove(
+                    "vertical-mode"
+                );
+                body.classList.add(
+                    "horizontal-mode"
+                );
+            }
+        }
+    );
+}
+/* =========================================================
+   HELPERS
+========================================================= */
+function clamp(
+    value,
+    min,
+    max
+) {
+    return Math.min(
+        Math.max(value, min),
+        max
+    );
 }

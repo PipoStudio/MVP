@@ -1,175 +1,1116 @@
-/* RESET */
-body, html { 
-    margin: 0; 
-    overflow: hidden; 
-    background: #0D0D0D; 
-}
-
-.portfolio-wrapper {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    background: #0D0D0D;
-    perspective: 1000px;
-}
-
-.slider-container {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 5vw;
-    padding-left: 5vw;
-    /* Ancho mínimo para contener todas las tarjetas */
-    width: fit-content;
-    height: 100vh;
-    align-items: center; 
-    
-    /* Transiciones suaves */
-    transition: transform 0.1s ease-out;
-    
-    /* Puntos de anclaje para zoom y slider */
-    transform-origin: center center;
-    will-change: transform;
-}
-
-.card {
-    width: 30vw;
-    height: 40vw;
-    flex-shrink: 0; /* VITAL: Evitar que se encoja */
-    background: #222;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    border-radius: 8px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-}
-
-.card img { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
-    transition: transform 0.6s ease;
-}
-
-/* Efecto hover profesional */
-.card:hover img {
-    transform: scale(1.05);
-}
-
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
-}
-
-.card-final {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    color: white;
-    text-align: center;
-    font-size: 1.5vw;
-    font-weight: 600;
-    letter-spacing: 2px;
-    position: relative;
-    overflow: hidden;
-}
-
-.card-final h3 {
+/* =========================================================
+   PRODUCTO.CSS — PART 01
+========================================================= */
+/* =========================
+   RESET
+========================= */
+*,
+*::before,
+*::after {
     margin: 0;
-    z-index: 2;
-    position: relative;
+    padding: 0;
+    box-sizing: border-box;
 }
-
-.card-final::before {
-    content: '';
+/* =========================
+   ROOT
+========================= */
+:root {
+    --black:
+        #0D0D0D;
+    --white:
+        #F5F5F5;
+    --soft-white:
+        rgba(255,255,255,0.72);
+    --line:
+        rgba(255,255,255,0.08);
+    --line-strong:
+        rgba(255,255,255,0.14);
+    --overlay:
+        rgba(0,0,0,0.52);
+    --transition-smooth:
+        1s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-fast:
+        0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* =========================
+   HTML / BODY
+========================= */
+html {
+    scroll-behavior: smooth;
+}
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    background: var(--black);
+    font-family: 'Inter', sans-serif;
+    color: var(--white);
+    overscroll-behavior: none;
+}
+/* =========================
+   BODY
+========================= */
+body.producto-page {
+    position: relative;
+    overflow-x: hidden;
+    cursor: none;
+    isolation: isolate;
+}
+/* =========================
+   LOCKED MODE
+========================= */
+body.horizontal-mode {
+    overflow: hidden;
+}
+/* =========================
+   FREE MODE
+========================= */
+body.vertical-mode {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+/* =========================
+   TRANSITION
+========================= */
+.page-transition-layer {
+    position: fixed;
+    inset: 0;
+    background: #0D0D0D;
+    opacity: 0;
+    pointer-events: none;
+    transition:
+        opacity 1s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 9999;
+}
+body.is-transitioning .page-transition-layer {
+    opacity: 1;
+}
+/* =========================
+   CURSOR
+========================= */
+.magnify-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 999;
+    mix-blend-mode: screen;
+    opacity: 0;
+    transform:
+        translate(-50%, -50%) scale(0.5);
+    transition:
+        opacity 0.35s ease,
+        transform 0.35s ease;
+}
+/* =========================
+   CURSOR ACTIVE
+========================= */
+body.cursor-ready .magnify-cursor {
+    opacity: 1;
+    transform:
+        translate(-50%, -50%) scale(1);
+}
+/* =========================
+   INNER
+========================= */
+.magnify-inner {
     position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    backdrop-filter:
+        brightness(1.25)
+        contrast(1.1)
+        saturate(1.1);
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,0.12),
+            rgba(255,255,255,0.02)
+        );
+    border:
+        1px solid rgba(255,255,255,0.18);
+    box-shadow:
+        inset 0 0 40px rgba(255,255,255,0.08),
+        0 0 40px rgba(255,255,255,0.08);
+}
+/* =========================
+   ATMOSPHERE
+========================= */
+.experience-atmosphere {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+/* =========================
+   NOISE
+========================= */
+.noise-layer {
+    position: absolute;
+    inset: -200%;
+    opacity: 0.03;
+    background-image:
+        url("https://grainy-gradients.vercel.app/noise.svg");
+    animation:
+        noiseShift 8s steps(10) infinite;
+}
+@keyframes noiseShift {
+    0% {
+        transform:
+            translate(0,0);
+    }
+    25% {
+        transform:
+            translate(-4%, 3%);
+    }
+    50% {
+        transform:
+            translate(3%, -2%);
+    }
+    75% {
+        transform:
+            translate(-2%, 4%);
+    }
+    100% {
+        transform:
+            translate(0,0);
+    }
+}
+/* =========================
+   AMBIENT
+========================= */
+.ambient-gradient {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(140px);
+    opacity: 0.16;
+}
+.ambient-01 {
+    width: 40vw;
+    height: 40vw;
+    top: -8vw;
+    left: -5vw;
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,0.18),
+            transparent 70%
+        );
+}
+.ambient-02 {
+    width: 34vw;
+    height: 34vw;
+    bottom: -8vw;
+    right: -4vw;
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,0.12),
+            transparent 70%
+        );
+}
+/* =========================
+   GRID
+========================= */
+.grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,0.02) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,0.02) 1px,
+            transparent 1px
+        );
+    background-size:
+        5rem 5rem;
+    mask-image:
+        radial-gradient(
+            circle at center,
+            black,
+            transparent 85%
+        );
+}
+/* =========================
+   HEADER
+========================= */
+.site-header {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1), transparent);
+    padding:
+        1.8rem
+        3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 200;
+}
+/* =========================
+   NAV GLASS
+========================= */
+.site-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0,0,0,0.42),
+            transparent
+        );
     pointer-events: none;
 }
-
-/* ==========================================
-   ESTADOS Y ANIMACIONES
-========================================== */
-
-/* Fade-out suave del wrapper */
-.portfolio-wrapper { 
-    transition: opacity 0.8s ease; 
+/* =========================
+   LOGO
+========================= */
+.brand-logo {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.08em;
+    text-decoration: none;
+    color: var(--white);
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: -0.06em;
+    z-index: 2;
 }
-
-.portfolio-wrapper.hidden { 
-    opacity: 0; 
-    pointer-events: none; 
+.brand-dot {
+    color:
+        rgba(255,255,255,0.45);
 }
-
-/* Portafolio completo con fade-in */
-.portfolio-completo {
-    width: 100vw;
-    height: 100vh;
+/* =========================
+   NAV
+========================= */
+.main-navigation {
+    position: absolute;
+    left: 50%;
+    transform:
+        translateX(-50%);
+    z-index: 2;
+}
+/* =========================
+   NAV LIST
+========================= */
+.nav-list {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    list-style: none;
+}
+/* =========================
+   NAV LINK
+========================= */
+.nav-item a {
+    position: relative;
+    text-decoration: none;
+    color:
+        rgba(255,255,255,0.65);
+    font-size: 0.82rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transition:
+        color 0.4s ease;
+}
+.nav-item a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -0.45rem;
+    width: 0%;
+    height: 1px;
+    background:
+        rgba(255,255,255,0.5);
+    transition:
+        width 0.45s cubic-bezier(0.16,1,0.3,1);
+}
+.nav-item a:hover {
+    color:
+        rgba(255,255,255,1);
+}
+.nav-item a:hover::after {
+    width: 100%;
+}
+/* =========================
+   CTA
+========================= */
+.header-cta {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding:
+        0.9rem
+        1.5rem;
+    border:
+        1px solid rgba(255,255,255,0.1);
+    border-radius: 999px;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--white);
+    font-size: 0.76rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    backdrop-filter:
+        blur(14px);
+    transition:
+        border-color 0.4s ease,
+        transform 0.4s ease;
+}
+.header-cta:hover {
+    transform:
+        translateY(-2px);
+    border-color:
+        rgba(255,255,255,0.2);
+}
+/* =========================
+   MOBILE
+========================= */
+.menu-toggle {
+    display: none;
+}
+/* =========================
+   FOOTER UNLOCK
+========================= */
+.footer-unlock {
+    position: fixed;
+    right: 2rem;
+    bottom: 2rem;
+    width: 5.5rem;
+    height: 5.5rem;
+    border: none;
+    border-radius: 50%;
+    background:
+        rgba(255,255,255,0.06);
+    backdrop-filter:
+        blur(16px);
+    border:
+        1px solid rgba(255,255,255,0.08);
+    color: var(--white);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: #0D0D0D;
-    color: white;
-    opacity: 0;
-    transition: opacity 0.8s ease;
-}
-
-.portfolio-completo h1 {
-    font-size: 4vw;
-    margin-bottom: 2vw;
-    text-align: center;
-    font-weight: 700;
-    letter-spacing: -2px;
-}
-
-.btn-ver-todo {
-    display: inline-block;
-    padding: 1.2vw 3vw;
-    background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
-    color: white;
-    text-decoration: none;
-    border-radius: 50px;
-    font-weight: 600;
-    transition: all 0.3s ease;
+    gap: 0.4rem;
     cursor: pointer;
-    border: 2px solid transparent;
+    z-index: 300;
+    transition:
+        transform 0.5s cubic-bezier(0.16,1,0.3,1),
+        background 0.4s ease,
+        border-color 0.4s ease;
 }
-
-.btn-ver-todo:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 15px 40px rgba(255, 107, 107, 0.3);
+/* =========================
+   UNLOCK HOVER
+========================= */
+.footer-unlock:hover {
+    transform:
+        translateY(-6px);
+    background:
+        rgba(255,255,255,0.1);
+    border-color:
+        rgba(255,255,255,0.16);
 }
-
-/* ==========================================
+/* =========================
+   UNLOCK ICON
+========================= */
+.footer-unlock-icon {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+/* =========================
+   UNLOCK TEXT
+========================= */
+.footer-unlock-text {
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+/* =========================
+   MAIN
+========================= */
+.experience-main {
+    position: relative;
+    width: 100%;
+    z-index: 2;
+}
+/* =========================
+   HERO
+========================= */
+.experience-hero {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    z-index: 10;
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+}
+/* =========================
+   HERO HIDDEN
+========================= */
+.experience-hero.hero-hidden {
+    opacity: 0;
+    transform:
+        translateY(-30px);
+}
+/* =========================
+   HERO INNER
+========================= */
+.experience-hero-inner {
+    width: 100%;
+    padding:
+        0
+        6vw;
+}
+/* =========================
+   TOPLINE
+========================= */
+.experience-topline {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+}
+.topline-dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background:
+        rgba(255,255,255,0.45);
+}
+.experience-topline p {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color:
+        rgba(255,255,255,0.45);
+}
+/* =========================
+   HEADING GRID
+========================= */
+.experience-heading-grid {
+    display: grid;
+    grid-template-columns:
+        12rem
+        minmax(0, 60rem);
+    gap: 2rem;
+}
+/* =========================
+   LABEL
+========================= */
+.experience-label {
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color:
+        rgba(255,255,255,0.32);
+}
+/* =========================
+   TITLE
+========================= */
+.experience-title {
+    
+    font-size:
+        clamp(
+            3rem,
+            5vw,
+            6.5rem
+        );
+    line-height: 0.9;
+    letter-spacing: -0.08em;
+    font-weight: 700;
+    max-width: 10ch;
+    color: var(--white);
+}
+/* =========================
+   IMMERSIVE
+========================= */
+.immersive-section {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+/* =========================
+   PIN
+========================= */
+.immersive-pin {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+/* =========================
+   ZOOM
+========================= */
+.zoom-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform:
+        translate(-50%, -50%)
+        scale(1);
+    transform-origin: center center;
+    will-change: transform;
+}
+/* =========================
+   TRACK
+========================= */
+.horizontal-track {
+    display: flex;
+    align-items: center;
+    gap: 3vw;
+    padding-left: 18vw;
+    padding-right: 8vw;
+    will-change: transform;
+}
+/* =========================
+   CARD
+========================= */
+.discipline-card {
+    position: relative;
+    width: 28vw;
+    min-width: 28vw;
+    height: 40vw;
+    min-height: 40vw;
+    overflow: hidden;
+    border-radius: 2rem;
+    background:
+        #151515;
+    border:
+        1px solid rgba(255,255,255,0.06);
+    isolation: isolate;
+    flex-shrink: 0;
+    box-shadow:
+        0 20px 100px rgba(0,0,0,0.45);
+    transition:
+        transform 1s cubic-bezier(0.16,1,0.3,1),
+        border-color 0.8s ease,
+        box-shadow 0.8s ease;
+}
+/* =========================
+   LINK
+========================= */
+.discipline-link {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: var(--white);
+}
+/* =========================
+   MEDIA
+========================= */
+.discipline-media {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+/* =========================
+   IMAGE
+========================= */
+.discipline-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform:
+        scale(1);
+    transition:
+        transform 1.4s cubic-bezier(0.16,1,0.3,1),
+        opacity 0.8s ease,
+        filter 0.8s ease;
+    filter:
+        saturate(0.92)
+        contrast(1.04);
+}
+/* =========================
+   DARKNESS
+========================= */
+.discipline-darkness {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,0.96),
+            rgba(0,0,0,0.58),
+            rgba(0,0,0,0.12)
+        );
+    z-index: 1;
+    transition:
+        opacity 0.8s ease,
+        background 0.8s ease;
+}
+/* =========================
+   CONTENT
+========================= */
+.discipline-content {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    padding:
+        2.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    transition:
+        transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+/* =========================
+   INDEX
+========================= */
+.discipline-index {
+    margin-bottom: 1rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color:
+        rgba(255,255,255,0.42);
+}
+/* =========================
+   CATEGORY
+========================= */
+.discipline-category {
+    margin-bottom: 1.1rem;
+    font-size: 0.74rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color:
+        rgba(255,255,255,0.58);
+}
+/* =========================
+   TITLE
+========================= */
+.discipline-title {
+    font-size:
+        clamp(
+            2.2rem,
+            3vw,
+            4rem
+        );
+    line-height: 0.92;
+    letter-spacing: -0.08em;
+    font-weight: 700;
+    max-width: 8ch;
+    margin-bottom: 1.5rem;
+}
+/* =========================
+   DESCRIPTION
+========================= */
+.discipline-description {
+    max-width: 22rem;
+    font-size: 0.94rem;
+    line-height: 1.65;
+    color:
+        rgba(255,255,255,0.7);
+    margin-bottom: 2rem;
+}
+/* =========================
+   TOOLS
+========================= */
+.discipline-tools {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+/* =========================
+   TOOL
+========================= */
+.tool-item {
+    min-width: 3rem;
+    height: 3rem;
+    padding:
+        0 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background:
+        rgba(255,255,255,0.08);
+    border:
+        1px solid rgba(255,255,255,0.08);
+    backdrop-filter:
+        blur(12px);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color:
+        rgba(255,255,255,0.9);
+}
+/* =========================
+   META
+========================= */
+.discipline-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+/* =========================
+   META TEXT
+========================= */
+.discipline-meta span {
+    position: relative;
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color:
+        rgba(255,255,255,0.42);
+}
+/* =========================
+   HOVER
+========================= */
+.discipline-card:hover {
+    transform:
+        translateY(-10px);
+    border-color:
+        rgba(255,255,255,0.14);
+    box-shadow:
+        0 40px 140px rgba(0,0,0,0.65);
+}
+/* =========================
+   IMAGE HOVER
+========================= */
+.discipline-card:hover
+.discipline-media img {
+    transform:
+        scale(1.05);
+}
+/* =========================
+   HORIZONTAL MODE
+========================= */
+.discipline-card.horizontal-mode
+.discipline-media img {
+    opacity: 0.18;
+    transform:
+        scale(1.14);
+    filter:
+        blur(2px)
+        saturate(0.72)
+        contrast(1.05);
+}
+/* =========================
+   HORIZONTAL DARKNESS
+========================= */
+.discipline-card.horizontal-mode
+.discipline-darkness {
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,0.98),
+            rgba(0,0,0,0.84),
+            rgba(0,0,0,0.45)
+        );
+}
+/* =========================
+   FINAL CARD
+========================= */
+.portfolio-entry {
+    position: relative;
+    width: 32vw;
+    min-width: 32vw;
+    height: 40vw;
+    min-height: 40vw;
+    border-radius: 2rem;
+    overflow: hidden;
+    flex-shrink: 0;
+    background:
+        linear-gradient(
+            135deg,
+            #111111 0%,
+            #1D1D1D 100%
+        );
+    border:
+        1px solid rgba(255,255,255,0.08);
+    box-shadow:
+        0 30px 120px rgba(0,0,0,0.45);
+}
+/* =========================
+   FINAL LINK
+========================= */
+.portfolio-entry-link {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    padding:
+        3rem;
+    text-decoration: none;
+    color: var(--white);
+}
+/* =========================
+   FINAL BG
+========================= */
+.portfolio-entry::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(255,255,255,0.08),
+            transparent 45%
+        );
+    pointer-events: none;
+}
+/* =========================
+   FINAL LABEL
+========================= */
+.portfolio-entry-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color:
+        rgba(255,255,255,0.42);
+}
+/* =========================
+   FINAL CONTENT
+========================= */
+.portfolio-entry-content {
+    margin-top: auto;
+}
+/* =========================
+   FINAL TITLE
+========================= */
+.portfolio-entry-title {
+    font-size:
+        clamp(
+            3rem,
+            4vw,
+            5rem
+        );
+    line-height: 0.9;
+    letter-spacing: -0.08em;
+    font-weight: 700;
+    margin-bottom: 4.5rem;
+    max-width: 8ch;
+}
+/* =========================
+   FINAL DESCRIPTION
+========================= */
+.portfolio-entry-description {
+    max-width: 24rem;
+    line-height: 1.7;
+    color:
+        rgba(255,255,255,0.68);
+    margin-bottom: 2rem;
+}
+/* =========================
+   CLICK HERE
+========================= */
+.portfolio-entry-click {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color:
+        rgba(255,255,255,0.82);
+}
+.portfolio-entry-click::after {
+    content: "";
+    width: 3rem;
+    height: 1px;
+    background:
+        rgba(255,255,255,0.4);
+}
+/* =========================
+   FOOTER
+========================= */
+/* =========================================================
+   FOOTER
+========================================================= */
+.site-footer {
+    padding:
+        8rem
+        var(--container-padding)
+        3rem;
+    border-top:
+        1px solid var(--border-color);
+}
+/* =========================================================
+   FOOTER TOP
+========================================================= */
+.footer-top {
+    display: grid;
+    grid-template-columns:
+        1.4fr
+        1fr
+        1fr;
+    gap: 5rem;
+    margin-bottom: 8rem;
+}
+/* =========================================================
+   FOOTER TEXT
+========================================================= */
+.footer-description {
+    max-width: 28ch;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    opacity: 0.65;
+}
+/* =========================================================
+   FOOTER LABEL
+========================================================= */
+.footer-label {
+    display: block;
+    margin-bottom: 1.5rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    opacity: 0.45;
+}
+/* =========================================================
+   FOOTER LINKS
+========================================================= */
+.footer-navigation ul,
+.footer-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.footer-navigation a,
+.footer-contact a {
+    width: fit-content;
+    font-size: 0.95rem;
+    opacity: 0.75;
+    transition: var(--transition-fast);
+}
+.footer-navigation a:hover,
+.footer-contact a:hover {
+    opacity: 1;
+}
+/* =========================================================
+   FOOTER STATEMENT
+========================================================= */
+.footer-statement {
+    margin-bottom: 5rem;
+}
+.footer-statement h2 {
+    font-size:
+        clamp(5rem, 10vw, 13rem);
+    line-height: 0.82;
+    letter-spacing: -0.08em;
+}
+/* =========================================================
+   FOOTER BOTTOM
+========================================================= */
+.footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 2rem;
+    border-top:
+        1px solid var(--border-color);
+}
+.footer-bottom p {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    opacity: 0.45;
+}
+/* =========================
    RESPONSIVE
-========================================== */
-
-@media (max-width: 768px) {
-    .slider-container {
-        gap: 2vw;
-        padding-left: 2vw;
+========================= */
+@media screen and (max-width: 1200px) {
+    .discipline-card {
+        width: 42vw;
+        min-width: 42vw;
+        height: 58vw;
+        min-height: 58vw;
     }
-    
-    .card {
-        width: 60vw;
-        height: 80vw;
+    .portfolio-entry {
+        width: 42vw;
+        min-width: 42vw;
+        height: 58vw;
+        min-height: 58vw;
     }
-    
-    .portfolio-completo h1 {
-        font-size: 8vw;
-        margin-bottom: 4vw;
+    .footer-top {
+        grid-template-columns: 1fr;
+        gap: 4rem;
     }
-    
-    .btn-ver-todo {
-        padding: 3vw 6vw;
-        font-size: 4vw;
+}
+/* =========================
+   TABLET
+========================= */
+@media screen and (max-width: 768px) {
+    .site-header {
+        padding:
+            1.4rem
+            1.2rem;
+    }
+    .main-navigation {
+        display: none;
+    }
+    .header-cta {
+        display: none;
+    }
+    .menu-toggle {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        background: none;
+        border: none;
+    }
+    .menu-toggle span {
+        width: 1.6rem;
+        height: 1px;
+        background:
+            rgba(255,255,255,0.8);
+    }
+    .experience-hero-inner {
+        padding:
+            0
+            1.5rem;
+    }
+    .experience-heading-grid {
+        grid-template-columns: 1fr;
+    }
+    .horizontal-track {
+        gap: 5vw;
+        padding-left: 10vw;
+        padding-right: 10vw;
+    }
+    .discipline-card {
+        width: 76vw;
+        min-width: 76vw;
+        height: 120vw;
+        min-height: 120vw;
+    }
+    .portfolio-entry {
+        width: 76vw;
+        min-width: 76vw;
+        height: 120vw;
+        min-height: 120vw;
+    }
+    .portfolio-entry-link {
+        padding: 2rem;
+    }
+    .site-footer {
+        padding:
+            8rem
+            1.5rem
+            3rem;
+    }
+    .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }

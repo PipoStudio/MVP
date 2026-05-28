@@ -1,66 +1,511 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portafolio interactivo de Amplify Studio con scroll transformativo">
-    <meta name="theme-color" content="#0D0D0D">
+    <!-- META -->
+    <meta charset="UTF-8" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    />
+    <meta
+        name="description"
+        content="Amplify Studio — Immersive Portfolio Experience."
+    />
+    <meta
+        name="theme-color"
+        content="#0D0D0D"
+    />
+    <!-- TITLE -->
+    <title>
+        Amplify Studio — Portfolio Entry
+    </title>
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
+    <!-- CSS -->
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="components.css">
+    <link rel="stylesheet" href="animations.css">
+    <link rel="stylesheet" href="responsive.css">
+    <!-- PRODUCT EXPERIENCE -->
     <link rel="stylesheet" href="producto.css">
-    <title>Amplify Studio | Portafolio Interactivo</title>
 </head>
-<body>
-    <!-- 
-        ZONA 1: SISTEMA DE ZOOM + SLIDER
-        - Estado 1 (Zoom): Escala el contenedor desde 1x hasta 5x
-        - Estado 2 (Slider): Desplaza horizontalmente las tarjetas
-        - Estado 3 (Portfolio): Revela el portafolio completo
-    -->
-    <div class="portfolio-wrapper">
-        <!-- Contenedor principal que recibe las transformaciones de scale y translateX -->
-        <div class="slider-container" id="slider">
-            <!-- TARJETA 1: Fotomontaje -->
-            <a href="fotomontaje.html" class="card">
-                <img 
-                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800" 
-                    alt="Fotomontaje profesional"
-                    loading="lazy"
-                >
+<body class="producto-page">
+    <!-- ===================================== -->
+    <!-- TRANSITION -->
+    <!-- ===================================== -->
+    <div class="page-transition-layer"></div>
+    <!-- ===================================== -->
+    <!-- CURSOR -->
+    <!-- ===================================== -->
+    <div class="magnify-cursor">
+        <div class="magnify-inner"></div>
+    </div>
+    <!-- ===================================== -->
+    <!-- ATMOSPHERE -->
+    <!-- ===================================== -->
+    <div class="experience-atmosphere">
+        <div class="noise-layer"></div>
+        <div class="ambient-gradient ambient-01"></div>
+        <div class="ambient-gradient ambient-02"></div>
+        <div class="grid-overlay"></div>
+    </div>
+    <!-- ===================================== -->
+    <!-- NAVBAR -->
+    <!-- ===================================== -->
+    <header class="site-header">
+        <!-- LEFT -->
+        <div class="header-left">
+            <a
+                href="../index.html"
+                class="brand-logo"
+            >
+                <span class="brand-text">
+                    Amplify
+                </span>
+                <span class="brand-dot">
+                    .
+                </span>
             </a>
-            
-            <!-- TARJETA 2: Retouching -->
-            <a href="retouching.html" class="card">
-                <img 
-                    src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800" 
-                    alt="Servicio de retouching"
-                    loading="lazy"
-                >
+        </div>
+        <!-- CENTER -->
+        <nav class="main-navigation">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="../index.html">
+                        Inicio
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../pages/concepto.html">
+                        Concepto
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../pages/acerca.html">
+                        Acerca
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../pages/portafolio.html">
+                        Portafolio
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../pages/contacto.html">
+                        Contacto
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- RIGHT -->
+        <div class="header-right">
+            <a
+                href="../pages/contacto.html"
+                class="header-cta"
+            >
+                <span>
+                    Let’s Talk
+                </span>
             </a>
-            
-            <!-- TARJETA 3: Diseño -->
-            <a href="design.html" class="card">
-                <img 
-                    src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800" 
-                    alt="Diseño gráfico"
-                    loading="lazy"
-                >
-            </a>
-            
-            <!-- TARJETA FINAL: Disparador de transición al portafolio completo -->
-            <div class="card card-final" onclick="revelarPortafolioCompleto()" role="button" tabindex="0">
-                <h3>Ver todo</h3>
+        </div>
+        <!-- MOBILE -->
+        <button
+            class="menu-toggle"
+            aria-label="Abrir menú"
+        >
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+    <!-- ===================================== -->
+    <!-- FOOTER ACCESS -->
+    <!-- ===================================== -->
+    <button
+        class="footer-unlock"
+        id="footerUnlock"
+        aria-label="Ir al footer"
+    >
+        <span class="footer-unlock-icon">
+            ↓
+        </span>
+        <span class="footer-unlock-text">
+            Footer
+        </span>
+    </button>
+    <!-- ===================================== -->
+    <!-- MAIN -->
+    <!-- ===================================== -->
+    <main class="experience-main">
+        <!-- ===================================== -->
+        <!-- HERO INTRO -->
+        <!-- ===================================== -->
+        <section class="experience-hero">
+            <div class="experience-hero-inner">
+                <!-- TOP -->
+                <div class="experience-topline">
+                    <span class="topline-dot"></span>
+                    <p>
+                        Visual Direction / Editorial Systems / Digital Motion
+                    </p>
+                </div>
+                <!-- TITLE -->
+                <div class="experience-heading-grid">
+                    <div class="experience-heading-left">
+                        <span class="experience-label">
+                            [ Immersive Entry ]
+                        </span>
+                    </div>
+                    <div class="experience-heading-right">
+                        <h1 class="experience-title">
+                        </h1>
+                    </div>
+                </div>
             </div>
+        </section>
+        <!-- ===================================== -->
+        <!-- IMMERSIVE SECTION -->
+        <!-- ===================================== -->
+        <section
+            class="immersive-section"
+            id="immersiveSection"
+        >
+            <!-- ===================================== -->
+            <!-- PINNED EXPERIENCE -->
+            <!-- ===================================== -->
+            <div class="immersive-pin">
+                <!-- ===================================== -->
+                <!-- ZOOM WRAPPER -->
+                <!-- ===================================== -->
+                <div
+                    class="zoom-wrapper"
+                    id="zoomWrapper"
+                >
+                    <!-- ===================================== -->
+                    <!-- TRACK -->
+                    <!-- ===================================== -->
+                    <div
+                        class="horizontal-track"
+                        id="horizontalTrack"
+                    >
+                        <!-- ===================================== -->
+                        <!-- CARD 01 -->
+                        <!-- FOTOMONTAJE -->
+                        <!-- ===================================== -->
+                        <article
+                            class="discipline-card"
+                            data-card="fotomontaje"
+                        >
+                            <a
+                                href="../pages/fotomontaje.html"
+                                class="discipline-link"
+                                data-transition
+                            >
+                                <!-- IMAGE -->
+                                <div class="discipline-media">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1800&auto=format&fit=crop"
+                                        alt="Fotomontaje"
+                                    >
+                                </div>
+                                <!-- DARK LAYER -->
+                                <div class="discipline-darkness"></div>
+                                <!-- CONTENT -->
+                                <div class="discipline-content">
+                                    <!-- INDEX -->
+                                    <span class="discipline-index">
+                                        01
+                                    </span>
+                                    <!-- CATEGORY -->
+                                    <span class="discipline-category">
+                                        Fotomontaje
+                                    </span>
+                                    <!-- TITLE -->
+                                    <h2 class="discipline-title">
+                                        Constructed
+                                        Visual Realities
+                                    </h2>
+                                    <!-- DESCRIPTION -->
+                                    <p class="discipline-description">
+                                        Surreal compositions blending cinematic storytelling, advanced visual manipulation and editorial atmosphere.
+                                    </p>
+                                    <!-- TOOLS -->
+                                    <div class="discipline-tools">
+                                        <span class="tool-item">
+                                            PS
+                                        </span>
+                                        <span class="tool-item">
+                                            AI
+                                        </span>
+                                    </div>
+                                    <!-- META -->
+                                    <div class="discipline-meta">
+                                        <span>
+                                            Photoshop
+                                        </span>
+                                        <span>
+                                            Illustrator
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </article>
+                        <!-- ===================================== -->
+                        <!-- CARD 02 -->
+                        <!-- RETOUCHING -->
+                        <!-- ===================================== -->
+                        <article
+                            class="discipline-card"
+                            data-card="retouching"
+                        >
+                            <a
+                                href="../pages/retouching.html"
+                                class="discipline-link"
+                                data-transition
+                            >
+                                <!-- IMAGE -->
+                                <div class="discipline-media">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1800&auto=format&fit=crop"
+                                        alt="Retouching"
+                                    >
+                                </div>
+                                <!-- DARK -->
+                                <div class="discipline-darkness"></div>
+                                <!-- CONTENT -->
+                                <div class="discipline-content">
+                                    <span class="discipline-index">
+                                        02
+                                    </span>
+                                    <span class="discipline-category">
+                                        Retouching
+                                    </span>
+                                    <h2 class="discipline-title">
+                                        Precision Through
+                                        Editorial Detail
+                                    </h2>
+                                    <p class="discipline-description">
+                                        Advanced refinement workflows focused on fashion imagery, luxury aesthetics and visual consistency.
+                                    </p>
+                                    <div class="discipline-tools">
+                                        <span class="tool-item">
+                                            LR
+                                        </span>
+                                        <span class="tool-item">
+                                            PS
+                                        </span>
+                                    </div>
+                                    <div class="discipline-meta">
+                                        <span>
+                                            Lightroom
+                                        </span>
+                                        <span>
+                                            Photoshop
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </article>
+                        <!-- ===================================== -->
+                        <!-- CARD 03 -->
+                        <!-- DESIGN -->
+                        <!-- ===================================== -->
+                        <article
+                            class="discipline-card"
+                            data-card="design"
+                        >
+                            <a
+                                href="../pages/design.html"
+                                class="discipline-link"
+                                data-transition
+                            >
+                                <!-- IMAGE -->
+                                <div class="discipline-media">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1800&auto=format&fit=crop"
+                                        alt="Design"
+                                    >
+                                </div>
+                                <!-- DARK -->
+                                <div class="discipline-darkness"></div>
+                                <!-- CONTENT -->
+                                <div class="discipline-content">
+                                    <span class="discipline-index">
+                                        03
+                                    </span>
+                                    <span class="discipline-category">
+                                        Design
+                                    </span>
+                                    <h2 class="discipline-title">
+                                        Visual Systems
+                                        With Intention
+                                    </h2>
+                                    <p class="discipline-description">
+                                        Contemporary identity systems combining typography, campaign direction and immersive composition.
+                                    </p>
+                                    <div class="discipline-tools">
+                                        <span class="tool-item">
+                                            PS
+                                        </span>
+                                        <span class="tool-item">
+                                            AI
+                                        </span>
+                                    </div>
+                                    <div class="discipline-meta">
+                                        <span>
+                                            Photoshop
+                                        </span>
+                                        <span>
+                                            Illustrator
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </article>
+                                                <!-- ===================================== -->
+                        <!-- FINAL ENTRY -->
+                        <!-- PORTFOLIO -->
+                        <!-- ===================================== -->
+                        <article
+                            class="portfolio-entry"
+                            id="portfolioEntry"
+                        >
+                            <a
+                                href="../pages/portafolio.html"
+                                class="portfolio-entry-link"
+                                data-transition
+                            >
+                                <!-- LABEL -->
+                                <span class="portfolio-entry-label">
+                                    [ Complete Archive ]
+                                </span>
+                                <!-- CONTENT -->
+                                <div class="portfolio-entry-content">
+                                    <h2 class="portfolio-entry-title">
+                                        View Full
+                                        Portfolio [click here]
+                                    </h2>
+                                    <p class="portfolio-entry-description">
+                                        Explore the complete collection of editorial visuals, immersive compositions, retouching systems and contemporary digital campaigns.
+                                    </p>
+                                    <span class="portfolio-entry-click">
+                                        [ click here ]
+                                    </span>
+                                </div>
+                            </a>
+                        </article>
+                    </div>
+                    <!-- END TRACK -->
+                </div>
+                <!-- END ZOOM -->
+            </div>
+            <!-- END PIN -->
+        </section>
+        <!-- END IMMERSIVE -->
+        <!-- ===================================== -->
+        <!-- FOOTER -->
+        <!-- ===================================== -->
+       <!-- ========================= -->
+    <!-- FOOTER -->
+    <!-- ========================= -->
+    <footer class="site-footer">
+    <!-- ========================= -->
+    <!-- TOP -->
+    <!-- ========================= -->
+    <div class="footer-top">
+        <!-- LEFT -->
+        <div class="footer-brand">
+            <a href="../index.html" class="footer-logo">
+                <span class="footer-logo-text">
+                    Amplify
+                </span>
+                <span class="footer-logo-dot">
+                    .
+                </span>
+            </a>
+            <p class="footer-description">
+                Contemporary visual systems focused on editorial composition, advertising aesthetics and cinematic digital experiences.
+            </p>
+        </div>
+        <!-- CENTER -->
+        <div class="footer-navigation">
+            <span class="footer-label">
+                Navigation
+            </span>
+            <ul>
+                <li>
+                    <a href="../index.html">
+                        Inicio
+                    </a>
+                </li>
+                <li>
+                    <a href="../pages/concepto.html">
+                        Concepto
+                    </a>
+                </li>
+                <li>
+                    <a href="../pages/acerca.html">
+                        Acerca
+                    </a>
+                </li>
+                <li>
+                    <a href="../pages/portafolio.html">
+                        Portafolio
+                    </a>
+                </li>
+                <li>
+                    <a href="../pages/contacto.html">
+                        Contacto
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- RIGHT -->
+        <div class="footer-contact">
+            <span class="footer-label">
+                Contact
+            </span>
+            <a href="mailto:hello@amplifystudio.com" class="footer-email">
+                hello@amplifystudio.com
+            </a>
+            <a href="#" class="footer-social">
+                Instagram
+            </a>
+            <a href="#" class="footer-social">
+                Behance
+            </a>
         </div>
     </div>
-
-    <!-- 
-        ZONA 2: PORTAFOLIO COMPLETO
-        Se muestra después de pasar por todas las tarjetas
-    -->
-    <div class="portfolio-completo" style="display: none;">
-        <h1>Portafolio General</h1>
-        <a href="portafolio.html" class="btn-ver-todo">Ir al archivo completo</a>
+    <!-- ========================= -->
+    <!-- LARGE STATEMENT -->
+    <!-- ========================= -->
+    <div class="footer-statement">
+        <h2>
+            Designed<br>
+            to amplify perception.
+        </h2>
     </div>
-
+    <!-- ========================= -->
+    <!-- BOTTOM -->
+    <!-- ========================= -->
+    <div class="footer-bottom">
+        <p>
+            © 2026 Amplify Studio
+        </p>
+        <p>
+            Editorial Digital Experience
+        </p>
+    </div>
+</footer>
+    </main>
+    <!-- ===================================== -->
+    <!-- SCRIPT -->
+    <!-- ===================================== -->
     <script src="producto.js"></script>
 </body>
 </html>
